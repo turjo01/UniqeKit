@@ -1,0 +1,187 @@
+# UniqueKits - Advanced Kit Plugin Configuration
+# Plugin by Turjo
+# Version: 1.0.0
+
+settings:
+  # Language file to use (without .yml extension)
+  language: "en"
+  
+  # Check for plugin updates on startup
+  check-updates: true
+  
+  # Enable virtual storage for overflow items
+  virtual-storage: true
+  
+  # Debug mode for troubleshooting
+  debug: false
+  
+  # Database settings (future feature)
+  database:
+    enabled: false
+    type: "SQLITE" # SQLITE, MySQL
+    host: "localhost"
+    port: 3306
+    database: "uniquekits"
+    username: "root"
+    password: ""
+
+# Kit GUI Settings
+gui:
+  # GUI update interval in ticks (20 = 1 second)
+  update-interval: 20
+  
+  # Items per page in GUI
+  items-per-page: 45
+  
+  # Enable GUI sounds
+  sounds: true
+  
+  # GUI animation settings
+  animations:
+    enabled: true
+    speed: 2
+
+# Hook Settings
+hooks:
+  # Vault integration
+  vault:
+    enabled: true
+  
+  # PlaceholderAPI integration
+  placeholderapi:
+    enabled: true
+  
+  # MythicMobs integration
+  mythicmobs:
+    enabled: true
+  
+  # ItemsAdder integration
+  itemsadder:
+    enabled: true
+  
+  # MMOItems integration
+  mmoitems:
+    enabled: true
+  
+  # WorldGuard integration
+  worldguard:
+    enabled: true
+
+# Performance Settings
+performance:
+  # Cache player data in memory
+  cache-player-data: true
+  
+  # Auto-save interval in minutes
+  auto-save-interval: 5
+  
+  # Maximum concurrent kit operations
+  max-concurrent-operations: 10
+
+# Security Settings
+security:
+  # Prevent kit abuse
+  anti-spam:
+    enabled: true
+    max-requests-per-second: 3
+  
+  # Log kit usage
+  logging:
+    enabled: true
+    log-file: "kit-usage.log"
+
+# First Join Settings
+first-join:
+  # Enable first join kits
+  enabled: true
+  
+  # Delay before giving first join kit (in seconds)
+  delay: 3
+  
+  # Welcome message
+  welcome-message: true
+
+# Auto-give Settings
+auto-give:
+  # Auto-give kits on join
+  on-join:
+    enabled: true
+    delay: 1
+  
+  # Auto-give kits on respawn
+  on-respawn:
+    enabled: true
+    delay: 0
+
+# Kit Preview Settings
+preview:
+  # Enable kit preview
+  enabled: true
+  
+  # Preview in separate inventory
+  separate-inventory: true
+  
+  # Show unavailable items in preview
+  show-unavailable: false
+
+# Cooldown Display Settings
+cooldown:
+  # Show cooldown in kit lore
+  show-in-lore: true
+  
+  # Cooldown format
+  format: "&c&lCooldown: &f{time}"
+  
+  # Show remaining time
+  show-remaining: true
+
+# Sound Settings
+sounds:
+  # Kit received sound
+  kit-received: "ENTITY_PLAYER_LEVELUP"
+  
+  # Kit cooldown sound
+  kit-cooldown: "ENTITY_VILLAGER_NO"
+  
+  # GUI click sound
+  gui-click: "UI_BUTTON_CLICK"
+  
+  # GUI open sound
+  gui-open: "BLOCK_CHEST_OPEN"
+  
+  # GUI close sound
+  gui-close: "BLOCK_CHEST_CLOSE"
+
+# Particle Settings
+particles:
+  # Enable particles
+  enabled: true
+  
+  # Default kit particle
+  default: "VILLAGER_HAPPY"
+  
+  # Particle count
+  count: 10
+  
+  # Particle offset
+  offset: 0.5
+
+# Command Aliases
+aliases:
+  kit: ["kits", "getkit", "k"]
+  uniquekits: ["uk", "ukit", "ukits"]
+
+# MySQL Settings (Future Feature)
+mysql:
+  enabled: false
+  host: "localhost"
+  port: 3306
+  database: "uniquekits"
+  username: "root"
+  password: ""
+  table-prefix: "uk_"
+  ssl: false
+  connection-timeout: 30000
+  idle-timeout: 600000
+  max-lifetime: 1800000
+  maximum-pool-size: 10

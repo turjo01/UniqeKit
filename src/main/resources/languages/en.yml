@@ -1,0 +1,169 @@
+# UniqueKits English Language File
+# All messages and text displayed by the plugin
+
+# General Messages
+general:
+  prefix: "&6[&eUniqueKits&6] "
+  no-permission: "&cYou don't have permission to use this command!"
+  player-only: "&cThis command can only be used by players!"
+  invalid-player: "&cPlayer '{player}' not found!"
+  reload-success: "&aPlugin reloaded successfully!"
+  config-error: "&cError in configuration file: {error}"
+
+# Command Messages
+commands:
+  help:
+    header: "&6&l=== UniqueKits Help ==="
+    commands:
+      - "&e/kit [name] &7- Claim a kit"
+      - "&e/kit list &7- List available kits"
+      - "&e/kit preview <name> &7- Preview a kit"
+      - "&e/uniquekits help &7- Show this help"
+      - "&e/uniquekits list &7- List all kits (admin)"
+      - "&e/uniquekits create <name> &7- Create a kit"
+      - "&e/uniquekits edit <name> &7- Edit a kit"
+      - "&e/uniquekits delete <name> &7- Delete a kit"
+      - "&e/uniquekits give <player> <kit> &7- Give kit to player"
+      - "&e/uniquekits reload &7- Reload the plugin"
+    footer: "&6&l===================="
+  
+  usage:
+    kit: "&cUsage: /kit [name|list|preview <name>]"
+    uniquekits: "&cUsage: /uniquekits [help|list|create|edit|delete|give|reload]"
+    create: "&cUsage: /uniquekits create <name>"
+    edit: "&cUsage: /uniquekits edit <name>"
+    delete: "&cUsage: /uniquekits delete <name>"
+    give: "&cUsage: /uniquekits give <player> <kit>"
+    preview: "&cUsage: /kit preview <name>"
+
+# Kit Messages
+kit:
+  not-found: "&cKit '{kit}' not found!"
+  no-permission: "&cYou don't have permission to use this kit!"
+  cooldown: "&cThis kit is on cooldown! Time remaining: &e{time}"
+  already-used: "&cYou have already used this one-time kit!"
+  insufficient-funds: "&cYou need ${cost} to use this kit! You have ${balance}"
+  received: "&aYou have received the {kit} &akit!"
+  overflow-stored: "&eYour inventory was full! Extra items have been stored in your virtual chest."
+  overflow-dropped: "&eYour inventory was full! Extra items have been dropped on the ground."
+  given: "&aYou gave the {kit} &akit to &e{player}&a!"
+  received-from: "&aYou received the {kit} &akit from &e{sender}&a!"
+  preview-header: "&6&l=== Kit Preview: {kit} &6&l==="
+  preview-footer: "&6&l========================"
+  list-header: "&6&l=== Available Kits ==="
+  list-item: "&e{kit} &7- {description}"
+  list-cooldown: "&c(Cooldown: {time})"
+  list-cost: "&a(Cost: ${cost})"
+  list-footer: "&6&l=================="
+  no-kits-available: "&cNo kits are available for you!"
+
+# Admin Messages
+admin:
+  kit-created: "&aKit '{kit}' created successfully!"
+  kit-deleted: "&aKit '{kit}' deleted successfully!"
+  kit-exists: "&cKit '{kit}' already exists!"
+  kit-not-exists: "&cKit '{kit}' does not exist!"
+  editing-kit: "&aYou are now editing kit '{kit}'. Use the GUI to make changes."
+  editor-opened: "&aKit editor opened for '{kit}'!"
+
+# GUI Messages
+gui:
+  main-title: "&6&lUniqueKits &8- &7Kit Selection"
+  editor-title: "&6&lKit Editor &8- &7{kit}"
+  preview-title: "&6&lKit Preview &8- &7{kit}"
+  settings-title: "&6&lKit Settings &8- &7{kit}"
+  confirm-title: "&4&lConfirm Action"
+  
+  buttons:
+    previous-page: "&a&lPrevious Page"
+    next-page: "&a&lNext Page"
+    close: "&c&lClose"
+    back: "&a&lBack"
+    save: "&a&lSave"
+    cancel: "&c&lCancel"
+    confirm: "&a&lConfirm"
+    claim: "&a&lClaim Kit"
+    preview: "&b&lPreview"
+    edit: "&e&lEdit"
+    delete: "&c&lDelete"
+  
+  lore:
+    kit-cooldown: "&cCooldown: &f{time}"
+    kit-cost: "&eCost: &f${cost}"
+    kit-permission: "&7Permission: &f{permission}"
+    kit-description: "&7{description}"
+    kit-available: "&a&lClick to claim!"
+    kit-unavailable: "&c&lNot available!"
+    page-info: "&7Page {current} of {total}"
+    click-to-claim: "&e&lLeft-click to claim"
+    click-to-preview: "&b&lRight-click to preview"
+
+# Error Messages
+errors:
+  inventory-full: "&cYour inventory is full!"
+  kit-error: "&cAn error occurred while giving you the kit!"
+  command-error: "&cAn error occurred while executing the command!"
+  save-error: "&cFailed to save kit data!"
+  load-error: "&cFailed to load kit data!"
+  permission-error: "&cPermission system error!"
+  economy-error: "&cEconomy system error!"
+
+# Success Messages
+success:
+  kit-saved: "&aKit saved successfully!"
+  settings-updated: "&aSettings updated successfully!"
+  data-reloaded: "&aData reloaded successfully!"
+
+# Time Formats
+time:
+  days: "{days}d {hours}h {minutes}m"
+  hours: "{hours}h {minutes}m {seconds}s"
+  minutes: "{minutes}m {seconds}s"
+  seconds: "{seconds}s"
+  
+  day: "day"
+  days: "days"
+  hour: "hour"
+  hours: "hours"
+  minute: "minute"
+  minutes: "minutes"
+  second: "second"
+  seconds: "seconds"
+
+# Placeholders
+placeholders:
+  total-kits: "Total Kits"
+  available-kits: "Available Kits"
+  used-kits: "Used Kits"
+  player-kits: "Player Kits"
+  cooldown-remaining: "Cooldown Remaining"
+
+# Welcome Messages
+welcome:
+  first-join: "&aWelcome to the server! You have received your starter kit!"
+  title: "&6&lWelcome!"
+  subtitle: "&eEnjoy your starter kit!"
+
+# Cooldown Messages
+cooldown:
+  format: "&c{time}"
+  expired: "&aYour cooldown for kit '{kit}' has expired!"
+
+# Requirements Messages
+requirements:
+  level: "&cYou need to be level {level} to use this kit!"
+  money: "&cYou need ${amount} to use this kit!"
+  permission: "&cYou need the permission '{permission}' to use this kit!"
+  achievement: "&cYou need the achievement '{achievement}' to use this kit!"
+
+# Update Messages
+update:
+  available: "&aA new version of UniqueKits is available: {version}"
+  current: "&aYou are running the latest version of UniqueKits!"
+  check-failed: "&cFailed to check for updates!"
+
+# Debug Messages
+debug:
+  kit-given: "&7[DEBUG] Kit '{kit}' given to '{player}'"
+  cooldown-set: "&7[DEBUG] Cooldown set for '{player}' on kit '{kit}': {time}ms"
+  permission-check: "&7[DEBUG] Permission check for '{player}' on '{permission}': {result}"

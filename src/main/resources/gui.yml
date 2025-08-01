@@ -1,0 +1,414 @@
+# UniqueKits GUI Configuration
+# All GUI layouts and designs are configured here
+
+# Main Kit Selection GUI
+main-gui:
+  title: "&6&lUniqueKits &8- &7Kit Selection"
+  size: 54
+  
+  # GUI Items
+  items:
+    # Previous page button
+    previous-page:
+      slot: 45
+      material: "ARROW"
+      name: "&a&lPrevious Page"
+      lore:
+        - "&7Click to go to the previous page"
+      custom-model-data: 0
+    
+    # Next page button
+    next-page:
+      slot: 53
+      material: "ARROW"
+      name: "&a&lNext Page"
+      lore:
+        - "&7Click to go to the next page"
+      custom-model-data: 0
+    
+    # Close button
+    close:
+      slot: 49
+      material: "BARRIER"
+      name: "&c&lClose"
+      lore:
+        - "&7Click to close this menu"
+      custom-model-data: 0
+    
+    # Info item
+    info:
+      slot: 4
+      material: "BOOK"
+      name: "&e&lKit Information"
+      lore:
+        - "&7Total Kits: &f{total_kits}"
+        - "&7Available Kits: &f{available_kits}"
+        - "&7Page: &f{current_page}&7/&f{total_pages}"
+        - ""
+        - "&7Left-click a kit to preview"
+        - "&7Right-click a kit to claim"
+      custom-model-data: 0
+    
+    # Fill items
+    fill:
+      material: "GRAY_STAINED_GLASS_PANE"
+      name: "&7"
+      slots: [46, 47, 48, 50, 51, 52]
+
+# Kit Editor GUI
+editor-gui:
+  title: "&6&lKit Editor &8- &7{kit_name}"
+  size: 54
+  
+  items:
+    # Save button
+    save:
+      slot: 45
+      material: "GREEN_CONCRETE"
+      name: "&a&lSave Kit"
+      lore:
+        - "&7Click to save all changes"
+        - "&7to this kit"
+      custom-model-data: 0
+    
+    # Cancel button
+    cancel:
+      slot: 46
+      material: "RED_CONCRETE"
+      name: "&c&lCancel"
+      lore:
+        - "&7Click to cancel editing"
+        - "&7without saving changes"
+      custom-model-data: 0
+    
+    # Kit settings
+    settings:
+      slot: 49
+      material: "ANVIL"
+      name: "&e&lKit Settings"
+      lore:
+        - "&7Click to edit kit settings"
+        - "&7such as cooldown, permission, etc."
+      custom-model-data: 0
+    
+    # Add potion effects
+    effects:
+      slot: 50
+      material: "POTION"
+      name: "&d&lPotion Effects"
+      lore:
+        - "&7Click to add/edit"
+        - "&7potion effects for this kit"
+      custom-model-data: 0
+    
+    # Add commands
+    commands:
+      slot: 51
+      material: "COMMAND_BLOCK"
+      name: "&6&lCommands"
+      lore:
+        - "&7Click to add/edit"
+        - "&7commands that run when"
+        - "&7this kit is claimed"
+      custom-model-data: 0
+    
+    # Preview kit
+    preview:
+      slot: 53
+      material: "ENDER_EYE"
+      name: "&b&lPreview Kit"
+      lore:
+        - "&7Click to preview this kit"
+        - "&7as a player would see it"
+      custom-model-data: 0
+    
+    # Delete kit
+    delete:
+      slot: 52
+      material: "TNT"
+      name: "&4&lDelete Kit"
+      lore:
+        - "&7Click to delete this kit"
+        - "&c&lWarning: This cannot be undone!"
+      custom-model-data: 0
+
+# Kit Preview GUI
+preview-gui:
+  title: "&6&lKit Preview &8- &7{kit_name}"
+  size: 54
+  
+  items:
+    # Claim button
+    claim:
+      slot: 49
+      material: "LIME_CONCRETE"
+      name: "&a&lClaim Kit"
+      lore:
+        - "&7Click to claim this kit"
+        - ""
+        - "&eCooldown: &f{cooldown}"
+        - "&eCost: &f{cost}"
+      custom-model-data: 0
+    
+    # Back button
+    back:
+      slot: 45
+      material: "ARROW"
+      name: "&a&lBack"
+      lore:
+        - "&7Return to kit selection"
+      custom-model-data: 0
+    
+    # Kit info
+    info:
+      slot: 4
+      material: "PAPER"
+      name: "&e&lKit Information"
+      lore:
+        - "&7Name: &f{kit_name}"
+        - "&7Description: &f{kit_description}"
+        - "&7Cooldown: &f{kit_cooldown}"
+        - "&7Cost: &f{kit_cost}"
+        - "&7Permission: &f{kit_permission}"
+      custom-model-data: 0
+
+# Kit Settings GUI
+settings-gui:
+  title: "&6&lKit Settings &8- &7{kit_name}"
+  size: 45
+  
+  items:
+    # Name setting
+    name:
+      slot: 10
+      material: "NAME_TAG"
+      name: "&e&lKit Name"
+      lore:
+        - "&7Current: &f{current_name}"
+        - ""
+        - "&7Click to change the kit name"
+      custom-model-data: 0
+    
+    # Description setting
+    description:
+      slot: 11
+      material: "WRITABLE_BOOK"
+      name: "&e&lDescription"
+      lore:
+        - "&7Current: &f{current_description}"
+        - ""
+        - "&7Click to change the description"
+      custom-model-data: 0
+    
+    # Icon setting
+    icon:
+      slot: 12
+      material: "ITEM_FRAME"
+      name: "&e&lKit Icon"
+      lore:
+        - "&7Current: &f{current_icon}"
+        - ""
+        - "&7Click to change the kit icon"
+      custom-model-data: 0
+    
+    # Cooldown setting
+    cooldown:
+      slot: 13
+      material: "CLOCK"
+      name: "&e&lCooldown"
+      lore:
+        - "&7Current: &f{current_cooldown}"
+        - ""
+        - "&7Click to change the cooldown"
+      custom-model-data: 0
+    
+    # Cost setting
+    cost:
+      slot: 14
+      material: "GOLD_INGOT"
+      name: "&e&lCost"
+      lore:
+        - "&7Current: &f{current_cost}"
+        - ""
+        - "&7Click to change the cost"
+      custom-model-data: 0
+    
+    # Permission setting
+    permission:
+      slot: 15
+      material: "BARRIER"
+      name: "&e&lPermission"
+      lore:
+        - "&7Current: &f{current_permission}"
+        - ""
+        - "&7Click to change the permission"
+      custom-model-data: 0
+    
+    # One-time use toggle
+    one-time:
+      slot: 19
+      material: "REDSTONE_TORCH"
+      name: "&e&lOne-time Use"
+      lore:
+        - "&7Current: &f{current_one_time}"
+        - ""
+        - "&7Click to toggle one-time use"
+      custom-model-data: 0
+    
+    # Auto-give on join toggle
+    auto-join:
+      slot: 20
+      material: "COMPASS"
+      name: "&e&lAuto-give on Join"
+      lore:
+        - "&7Current: &f{current_auto_join}"
+        - ""
+        - "&7Click to toggle auto-give on join"
+      custom-model-data: 0
+    
+    # Auto-give on respawn toggle
+    auto-respawn:
+      slot: 21
+      material: "TOTEM_OF_UNDYING"
+      name: "&e&lAuto-give on Respawn"
+      lore:
+        - "&7Current: &f{current_auto_respawn}"
+        - ""
+        - "&7Click to toggle auto-give on respawn"
+      custom-model-data: 0
+    
+    # First join kit toggle
+    first-join:
+      slot: 22
+      material: "EMERALD"
+      name: "&e&lFirst Join Kit"
+      lore:
+        - "&7Current: &f{current_first_join}"
+        - ""
+        - "&7Click to toggle first join kit"
+      custom-model-data: 0
+    
+    # World restrictions
+    worlds:
+      slot: 23
+      material: "GRASS_BLOCK"
+      name: "&e&lWorld Restrictions"
+      lore:
+        - "&7Allowed: &f{allowed_worlds}"
+        - "&7Blocked: &f{blocked_worlds}"
+        - ""
+        - "&7Click to edit world restrictions"
+      custom-model-data: 0
+    
+    # Sound setting
+    sound:
+      slot: 28
+      material: "NOTE_BLOCK"
+      name: "&e&lSound Effect"
+      lore:
+        - "&7Current: &f{current_sound}"
+        - ""
+        - "&7Click to change the sound effect"
+      custom-model-data: 0
+    
+    # Particle setting
+    particle:
+      slot: 29
+      material: "FIREWORK_ROCKET"
+      name: "&e&lParticle Effect"
+      lore:
+        - "&7Current: &f{current_particle}"
+        - ""
+        - "&7Click to change the particle effect"
+      custom-model-data: 0
+    
+    # Priority setting
+    priority:
+      slot: 30
+      material: "NETHER_STAR"
+      name: "&e&lPriority"
+      lore:
+        - "&7Current: &f{current_priority}"
+        - ""
+        - "&7Click to change the priority"
+        - "&7Higher priority = shown first"
+      custom-model-data: 0
+    
+    # Enabled toggle
+    enabled:
+      slot: 31
+      material: "LEVER"
+      name: "&e&lEnabled"
+      lore:
+        - "&7Current: &f{current_enabled}"
+        - ""
+        - "&7Click to toggle kit enabled state"
+      custom-model-data: 0
+    
+    # Back button
+    back:
+      slot: 36
+      material: "ARROW"
+      name: "&a&lBack"
+      lore:
+        - "&7Return to kit editor"
+      custom-model-data: 0
+    
+    # Save button
+    save:
+      slot: 44
+      material: "GREEN_CONCRETE"
+      name: "&a&lSave Settings"
+      lore:
+        - "&7Click to save all settings"
+      custom-model-data: 0
+
+# Confirmation GUI
+confirm-gui:
+  title: "&4&lConfirm Action"
+  size: 27
+  
+  items:
+    # Confirm button
+    confirm:
+      slot: 11
+      material: "GREEN_CONCRETE"
+      name: "&a&lConfirm"
+      lore:
+        - "&7Click to confirm this action"
+      custom-model-data: 0
+    
+    # Cancel button
+    cancel:
+      slot: 15
+      material: "RED_CONCRETE"
+      name: "&c&lCancel"
+      lore:
+        - "&7Click to cancel this action"
+      custom-model-data: 0
+    
+    # Info item
+    info:
+      slot: 13
+      material: "PAPER"
+      name: "&e&lAction"
+      lore:
+        - "&7{action_description}"
+      custom-model-data: 0
+
+# Animation settings
+animations:
+  # Loading animation
+  loading:
+    enabled: true
+    frames:
+      - "LIGHT_GRAY_STAINED_GLASS_PANE"
+      - "GRAY_STAINED_GLASS_PANE"
+      - "BLACK_STAINED_GLASS_PANE"
+    speed: 3
+  
+  # Page transition animation
+  page-transition:
+    enabled: true
+    type: "SLIDE" # SLIDE, FADE, ZOOM
+    duration: 10

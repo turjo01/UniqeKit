@@ -1,0 +1,74 @@
+name: UniqueKits
+version: '1.0.0'
+main: com.turjo.uniquekits.UniqueKits
+api-version: 1.21
+author: Turjo
+description: Advanced Kit Plugin for Minecraft Servers
+website: https://github.com/turjo/uniquekits
+
+depend: [Vault]
+softdepend: [PlaceholderAPI, MythicMobs, ItemsAdder, MMOItems, WorldGuard, Essentials]
+
+commands:
+  uniquekits:
+    description: Main UniqueKits command
+    aliases: [uk, kits, kit, ukit, ukits]
+    usage: /<command> [help|list|give|create|edit|reload]
+    permission: uniquekits.use
+  
+  kit:
+    description: Kit command for players
+    aliases: [kits, getkit]
+    usage: /<command> [kit_name]
+    permission: uniquekits.kit.use
+
+permissions:
+  uniquekits.*:
+    description: Full access to UniqueKits
+    children:
+      uniquekits.admin: true
+      uniquekits.use: true
+      uniquekits.kit.*: true
+      uniquekits.bypass.*: true
+  
+  uniquekits.admin:
+    description: Admin permissions for UniqueKits
+    default: op
+    children:
+      uniquekits.command.reload: true
+      uniquekits.command.create: true
+      uniquekits.command.edit: true
+      uniquekits.command.delete: true
+      uniquekits.command.give: true
+      uniquekits.gui.editor: true
+      uniquekits.bypass.cooldown: true
+      uniquekits.bypass.permission: true
+      uniquekits.bypass.world: true
+  
+  uniquekits.use:
+    description: Basic UniqueKits usage
+    default: true
+    children:
+      uniquekits.command.help: true
+      uniquekits.command.list: true
+      uniquekits.gui.kits: true
+  
+  uniquekits.kit.use:
+    description: Use kits command
+    default: true
+  
+  uniquekits.kit.*:
+    description: Access to all kits
+    default: false
+  
+  uniquekits.bypass.cooldown:
+    description: Bypass kit cooldowns
+    default: false
+  
+  uniquekits.bypass.permission:
+    description: Bypass kit permissions
+    default: false
+  
+  uniquekits.bypass.world:
+    description: Bypass world restrictions
+    default: false

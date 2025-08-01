@@ -1,0 +1,346 @@
+# UniqueKits - Kit Configuration File
+# Define all your kits here
+
+kits:
+  # Example starter kit
+  starter:
+    name: "&a&lStarter Kit"
+    description: "&7A basic kit for new players"
+    lore:
+      - "&7This kit contains basic items"
+      - "&7to help you get started!"
+      - ""
+      - "&e&lCooldown: &f30 minutes"
+      - "&a&lFree kit!"
+    icon: "CHEST"
+    icon-data: 0
+    items:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: STONE_SWORD
+      - ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: LEATHER_HELMET
+      - ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: LEATHER_CHESTPLATE
+      - ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: LEATHER_LEGGINGS
+      - ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: LEATHER_BOOTS
+      - ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: BREAD
+        amount: 16
+      - ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: OAK_LOG
+        amount: 32
+    commands: []
+    effects: []
+    cooldown: 1800000
+    cost: 0
+    permission: ""
+    one-time-use: false
+    auto-give-on-join: false
+    auto-give-on-respawn: false
+    first-join-kit: true
+    allowed-worlds: []
+    blocked-worlds: []
+    sound: "ENTITY_PLAYER_LEVELUP"
+    particle: ""
+    priority: 10
+    enabled: true
+    requirements: {}
+
+  # Example PvP kit
+  pvp:
+    name: "&c&lPvP Kit"
+    description: "&7A combat kit for PvP enthusiasts"
+    lore:
+      - "&7This kit contains powerful"
+      - "&7weapons and armor for PvP!"
+      - ""
+      - "&e&lCooldown: &f1 hour"
+      - "&e&lCost: &f$500"
+    icon: "DIAMOND_SWORD"
+    icon-data: 0
+    items:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: DIAMOND_SWORD
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: "&c&lPvP Sword"
+          enchants:
+            SHARPNESS: 5
+            UNBREAKING: 3
+      - ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: DIAMOND_HELMET
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          enchants:
+            PROTECTION: 4
+            UNBREAKING: 3
+      - ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: DIAMOND_CHESTPLATE
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          enchants:
+            PROTECTION: 4
+            UNBREAKING: 3
+      - ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: DIAMOND_LEGGINGS
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          enchants:
+            PROTECTION: 4
+            UNBREAKING: 3
+      - ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: DIAMOND_BOOTS
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          enchants:
+            PROTECTION: 4
+            UNBREAKING: 3
+            FEATHER_FALLING: 4
+      - ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: GOLDEN_APPLE
+        amount: 5
+      - ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: COOKED_BEEF
+        amount: 32
+    commands:
+      - "[CONSOLE] tell {player} You have received the PvP kit! Good luck in battle!"
+    effects:
+      - type: "SPEED"
+        duration: 1200
+        amplifier: 1
+        ambient: false
+        particles: true
+        icon: true
+      - type: "STRENGTH"
+        duration: 600
+        amplifier: 0
+        ambient: false
+        particles: true
+        icon: true
+    cooldown: 3600000
+    cost: 500
+    permission: "uniquekits.kit.pvp"
+    one-time-use: false
+    auto-give-on-join: false
+    auto-give-on-respawn: true
+    first-join-kit: false
+    allowed-worlds: ["pvp", "factions"]
+    blocked-worlds: ["creative", "spawn"]
+    sound: "ENTITY_ENDER_DRAGON_GROWL"
+    particle: "FLAME"
+    priority: 5
+    enabled: true
+    requirements:
+      level: 10
+      money: 1000.0
+
+  # Example builder kit
+  builder:
+    name: "&e&lBuilder Kit"
+    description: "&7Perfect for creative builders"
+    lore:
+      - "&7This kit contains various"
+      - "&7building blocks and tools!"
+      - ""
+      - "&e&lCooldown: &f45 minutes"
+      - "&e&lCost: &f$250"
+    icon: "GOLDEN_PICKAXE"
+    icon-data: 0
+    items:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: DIAMOND_PICKAXE
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: "&e&lBuilder's Pickaxe"
+          enchants:
+            EFFICIENCY: 5
+            UNBREAKING: 3
+            FORTUNE: 3
+      - ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: DIAMOND_AXE
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: "&e&lBuilder's Axe"
+          enchants:
+            EFFICIENCY: 5
+            UNBREAKING: 3
+      - ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: DIAMOND_SHOVEL
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: "&e&lBuilder's Shovel"
+          enchants:
+            EFFICIENCY: 5
+            UNBREAKING: 3
+      - ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: OAK_LOG
+        amount: 64
+      - ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: STONE
+        amount: 64
+      - ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: COBBLESTONE
+        amount: 64
+      - ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: GLASS
+        amount: 32
+      - ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: TORCH
+        amount: 64
+    commands: []
+    effects: []
+    cooldown: 2700000
+    cost: 250
+    permission: "uniquekits.kit.builder"
+    one-time-use: false
+    auto-give-on-join: false
+    auto-give-on-respawn: false
+    first-join-kit: false
+    allowed-worlds: []
+    blocked-worlds: ["pvp"]
+    sound: "BLOCK_ANVIL_USE"
+    particle: "ENCHANTMENT_TABLE"
+    priority: 3
+    enabled: true
+    requirements:
+      level: 5
+
+  # Example VIP kit (one-time use)
+  vip:
+    name: "&6&lVIP Kit"
+    description: "&7Exclusive kit for VIP players"
+    lore:
+      - "&7This exclusive kit is only"
+      - "&7available to VIP players!"
+      - ""
+      - "&c&lOne-time use only!"
+      - "&6&lVIP Exclusive"
+    icon: "NETHER_STAR"
+    icon-data: 0
+    items:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: NETHERITE_SWORD
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: "&6&lVIP Sword"
+          lore:
+            - "&7Exclusive VIP weapon"
+            - "&6&lSharpness X"
+          enchants:
+            SHARPNESS: 10
+            UNBREAKING: 5
+            LOOTING: 3
+      - ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: NETHERITE_HELMET
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: "&6&lVIP Helmet"
+          enchants:
+            PROTECTION: 6
+            UNBREAKING: 5
+      - ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: NETHERITE_CHESTPLATE
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: "&6&lVIP Chestplate"
+          enchants:
+            PROTECTION: 6
+            UNBREAKING: 5
+      - ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: NETHERITE_LEGGINGS
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: "&6&lVIP Leggings"
+          enchants:
+            PROTECTION: 6
+            UNBREAKING: 5
+      - ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: NETHERITE_BOOTS
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: "&6&lVIP Boots"
+          enchants:
+            PROTECTION: 6
+            UNBREAKING: 5
+            FEATHER_FALLING: 6
+      - ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: ENCHANTED_GOLDEN_APPLE
+        amount: 10
+      - ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: DIAMOND
+        amount: 64
+    commands:
+      - "[CONSOLE] broadcast &6&l{player} &e&lhas claimed the exclusive VIP kit!"
+      - "[CONSOLE] give {player} elytra 1"
+    effects:
+      - type: "REGENERATION"
+        duration: 6000
+        amplifier: 2
+        ambient: true
+        particles: false
+        icon: true
+      - type: "RESISTANCE"
+        duration: 6000
+        amplifier: 1
+        ambient: true
+        particles: false
+        icon: true
+    cooldown: 0
+    cost: 0
+    permission: "uniquekits.kit.vip"
+    one-time-use: true
+    auto-give-on-join: false
+    auto-give-on-respawn: false
+    first-join-kit: false
+    allowed-worlds: []
+    blocked-worlds: []
+    sound: "UI_TOAST_CHALLENGE_COMPLETE"
+    particle: "END_ROD"
+    priority: 100
+    enabled: true
+    requirements:
+      permission: "vip.rank"
