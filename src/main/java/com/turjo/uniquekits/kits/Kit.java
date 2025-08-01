@@ -141,11 +141,11 @@ public class Kit {
     private static PotionEffect createPotionEffect(Map<?, ?> effectMap) {
         try {
             String type = (String) effectMap.get("type");
-            int duration = (Integer) effectMap.getOrDefault("duration", 600);
-            int amplifier = (Integer) effectMap.getOrDefault("amplifier", 0);
-            boolean ambient = (Boolean) effectMap.getOrDefault("ambient", false);
-            boolean particles = (Boolean) effectMap.getOrDefault("particles", true);
-            boolean icon = (Boolean) effectMap.getOrDefault("icon", true);
+            int duration = ((Number) effectMap.getOrDefault("duration", 600)).intValue();
+            int amplifier = ((Number) effectMap.getOrDefault("amplifier", 0)).intValue();
+            boolean ambient = (Boolean) effectMap.getOrDefault("ambient", Boolean.FALSE);
+            boolean particles = (Boolean) effectMap.getOrDefault("particles", Boolean.TRUE);
+            boolean icon = (Boolean) effectMap.getOrDefault("icon", Boolean.TRUE);
             
             PotionEffectType effectType = PotionEffectType.getByName(type.toUpperCase());
             if (effectType != null) {

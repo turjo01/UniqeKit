@@ -194,7 +194,7 @@ public class ItemBuilder {
                     }
                     
                     if (metaMap.containsKey("custom-model-data")) {
-                        builder.customModelData((Integer) metaMap.get("custom-model-data"));
+                        builder.customModelData(((Number) metaMap.get("custom-model-data")).intValue());
                     }
                     
                     if (metaMap.containsKey("unbreakable")) {

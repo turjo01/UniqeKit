@@ -22,7 +22,7 @@ public class ConfigManager {
     
     private void loadConfigs() {
         // Main config
-        plugin.saveDefaultResource("config.yml", false);
+        plugin.saveDefaultConfig();
         plugin.reloadConfig();
         this.config = plugin.getConfig();
         
