@@ -141,11 +141,21 @@ public class Kit {
     private static PotionEffect createPotionEffect(Map<?, ?> effectMap) {
         try {
             String type = (String) effectMap.get("type");
-            int duration = (Integer) effectMap.getOrDefault("duration", 600);
-            int amplifier = (Integer) effectMap.getOrDefault("amplifier", 0);
-            boolean ambient = (Boolean) effectMap.getOrDefault("ambient", false);
-            boolean particles = (Boolean) effectMap.getOrDefault("particles", true);
-            boolean icon = (Boolean) effectMap.getOrDefault("icon", true);
+            
+            Object durationObj = effectMap.get("duration");
+            int duration = durationObj instanceof Integer ? (Integer) durationObj : 600;
+            
+            Object amplifierObj = effectMap.get("amplifier");
+            int amplifier = amplifierObj instanceof Integer ? (Integer) amplifierObj : 0;
+            
+            Object ambientObj = effectMap.get("ambient");
+            boolean ambient = ambientObj instanceof Boolean ? (Boolean) ambientObj : false;
+            
+            Object particlesObj = effectMap.get("particles");
+            boolean particles = particlesObj instanceof Boolean ? (Boolean) particlesObj : true;
+            
+            Object iconObj = effectMap.get("icon");
+            boolean icon = iconObj instanceof Boolean ? (Boolean) iconObj : true;
             
             PotionEffectType effectType = PotionEffectType.getByName(type.toUpperCase());
             if (effectType != null) {
