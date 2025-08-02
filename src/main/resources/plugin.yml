@@ -7,7 +7,7 @@ description: Advanced Kit Plugin for Minecraft Servers
 website: https://github.com/turjo/uniquekits
 
 depend: [Vault]
-softdepend: [PlaceholderAPI, MythicMobs, ItemsAdder, MMOItems, WorldGuard, Essentials]
+softdepend: [PlaceholderAPI, Essentials]
 
 commands:
   uniquekits:

@@ -50,24 +50,6 @@ hooks:
   # PlaceholderAPI integration
   placeholderapi:
     enabled: true
-    import-on-startup: false
-    preserve-original-names: true
-  
-  # MythicMobs integration
-  mythicmobs:
-    enabled: true
-  
-  # ItemsAdder integration
-  itemsadder:
-    enabled: true
-  
-  # MMOItems integration
-  mmoitems:
-    enabled: true
-  
-  # WorldGuard integration
-  worldguard:
-    enabled: true
 
 # Performance Settings
 performance:

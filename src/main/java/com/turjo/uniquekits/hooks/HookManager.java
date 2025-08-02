@@ -14,10 +14,6 @@ public class HookManager {
     // Hook status flags
     private boolean vaultEnabled = false;
     private boolean placeholderAPIEnabled = false;
-    private boolean mythicMobsEnabled = false;
-    private boolean itemsAdderEnabled = false;
-    private boolean mmoItemsEnabled = false;
-    private boolean worldGuardEnabled = false;
     private boolean essentialsXEnabled = false;
     
     public HookManager(UniqueKits plugin) {
@@ -30,10 +26,6 @@ public class HookManager {
         
         setupVault();
         setupPlaceholderAPI();
-        setupMythicMobs();
-        setupItemsAdder();
-        setupMMOItems();
-        setupWorldGuard();
         setupEssentialsX();
         
         plugin.getLogger().info("§a[HookManager] All hooks initialized successfully!");
@@ -76,62 +68,6 @@ public class HookManager {
         }
     }
     
-    private void setupMythicMobs() {
-        if (!plugin.getConfigManager().getConfig().getBoolean("hooks.mythicmobs.enabled", true)) {
-            plugin.getLogger().info("§7[HookManager] MythicMobs hook disabled in config");
-            return;
-        }
-        
-        if (plugin.getServer().getPluginManager().getPlugin("MythicMobs") != null) {
-            mythicMobsEnabled = true;
-            plugin.getLogger().info("§a[HookManager] ✓ MythicMobs hooked successfully!");
-        } else {
-            plugin.getLogger().info("§7[HookManager] MythicMobs not found - custom mob items unavailable");
-        }
-    }
-    
-    private void setupItemsAdder() {
-        if (!plugin.getConfigManager().getConfig().getBoolean("hooks.itemsadder.enabled", true)) {
-            plugin.getLogger().info("§7[HookManager] ItemsAdder hook disabled in config");
-            return;
-        }
-        
-        if (plugin.getServer().getPluginManager().getPlugin("ItemsAdder") != null) {
-            itemsAdderEnabled = true;
-            plugin.getLogger().info("§a[HookManager] ✓ ItemsAdder hooked successfully!");
-        } else {
-            plugin.getLogger().info("§7[HookManager] ItemsAdder not found - custom items unavailable");
-        }
-    }
-    
-    private void setupMMOItems() {
-        if (!plugin.getConfigManager().getConfig().getBoolean("hooks.mmoitems.enabled", true)) {
-            plugin.getLogger().info("§7[HookManager] MMOItems hook disabled in config");
-            return;
-        }
-        
-        if (plugin.getServer().getPluginManager().getPlugin("MMOItems") != null) {
-            mmoItemsEnabled = true;
-            plugin.getLogger().info("§a[HookManager] ✓ MMOItems hooked successfully!");
-        } else {
-            plugin.getLogger().info("§7[HookManager] MMOItems not found - RPG items unavailable");
-        }
-    }
-    
-    private void setupWorldGuard() {
-        if (!plugin.getConfigManager().getConfig().getBoolean("hooks.worldguard.enabled", true)) {
-            plugin.getLogger().info("§7[HookManager] WorldGuard hook disabled in config");
-            return;
-        }
-        
-        if (plugin.getServer().getPluginManager().getPlugin("WorldGuard") != null) {
-            worldGuardEnabled = true;
-            plugin.getLogger().info("§a[HookManager] ✓ WorldGuard hooked successfully!");
-        } else {
-            plugin.getLogger().info("§7[HookManager] WorldGuard not found - region restrictions unavailable");
-        }
-    }
-    
     private void setupEssentialsX() {
         if (!plugin.getConfigManager().getConfig().getBoolean("hooks.essentialsx.enabled", true)) {
             plugin.getLogger().info("§7[HookManager] EssentialsX hook disabled in config");
@@ -155,10 +91,6 @@ public class HookManager {
         plugin.getLogger().info("§e[HookManager] Hook Status Summary:");
         plugin.getLogger().info("§7├─ Vault: " + (vaultEnabled ? "§a✓ Enabled" : "§c✗ Disabled"));
         plugin.getLogger().info("§7├─ PlaceholderAPI: " + (placeholderAPIEnabled ? "§a✓ Enabled" : "§c✗ Disabled"));
-        plugin.getLogger().info("§7├─ MythicMobs: " + (mythicMobsEnabled ? "§a✓ Enabled" : "§c✗ Disabled"));
-        plugin.getLogger().info("§7├─ ItemsAdder: " + (itemsAdderEnabled ? "§a✓ Enabled" : "§c✗ Disabled"));
-        plugin.getLogger().info("§7├─ MMOItems: " + (mmoItemsEnabled ? "§a✓ Enabled" : "§c✗ Disabled"));
-        plugin.getLogger().info("§7├─ WorldGuard: " + (worldGuardEnabled ? "§a✓ Enabled" : "§c✗ Disabled"));
         plugin.getLogger().info("§7└─ EssentialsX: " + (essentialsXEnabled ? "§a✓ Enabled" : "§c✗ Disabled"));
     }
     
@@ -168,10 +100,6 @@ public class HookManager {
         // Reset all hooks
         vaultEnabled = false;
         placeholderAPIEnabled = false;
-        mythicMobsEnabled = false;
-        itemsAdderEnabled = false;
-        mmoItemsEnabled = false;
-        worldGuardEnabled = false;
         essentialsXEnabled = false;
         economy = null;
         essentialsXHook = null;
@@ -187,10 +115,6 @@ public class HookManager {
     
     public boolean isVaultEnabled() { return vaultEnabled; }
     public boolean isPlaceholderAPIEnabled() { return placeholderAPIEnabled; }
-    public boolean isMythicMobsEnabled() { return mythicMobsEnabled; }
-    public boolean isItemsAdderEnabled() { return itemsAdderEnabled; }
-    public boolean isMMOItemsEnabled() { return mmoItemsEnabled; }
-    public boolean isWorldGuardEnabled() { return worldGuardEnabled; }
     public boolean isEssentialsXEnabled() { return essentialsXEnabled; }
     
     // Utility methods
@@ -198,10 +122,6 @@ public class HookManager {
         int count = 0;
         if (vaultEnabled) count++;
         if (placeholderAPIEnabled) count++;
-        if (mythicMobsEnabled) count++;
-        if (itemsAdderEnabled) count++;
-        if (mmoItemsEnabled) count++;
-        if (worldGuardEnabled) count++;
         if (essentialsXEnabled) count++;
         return count;
     }
@@ -210,7 +130,4 @@ public class HookManager {
         return vaultEnabled && economy != null;
     }
     
-    public boolean hasCustomItemSupport() {
-        return mythicMobsEnabled || itemsAdderEnabled || mmoItemsEnabled;
-    }
 }
