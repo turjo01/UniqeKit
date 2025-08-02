@@ -194,9 +194,9 @@ public class ItemBuilder {
                     }
                     
                     if (metaMap.containsKey("custom-model-data")) {
-                        Object cmdDataObj = metaMap.get("custom-model-data");
-                        if (cmdDataObj instanceof Number) {
-                            builder.customModelData(((Number) cmdDataObj).intValue());
+                        Object customModelDataObj = metaMap.get("custom-model-data");
+                        if (customModelDataObj instanceof Number) {
+                            builder.customModelData(((Number) customModelDataObj).intValue());
                         }
                     }
                     
