@@ -11,7 +11,6 @@
 
     <name>UniqueKits</name>
     <description>Advanced Kit Plugin for Minecraft Servers</description>
-    <author>Turjo</author>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
