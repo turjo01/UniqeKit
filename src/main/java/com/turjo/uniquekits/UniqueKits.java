@@ -51,6 +51,9 @@ public class UniqueKits extends JavaPlugin {
         // Register listeners
         registerListeners();
         
+        // Start auto-save task
+        playerDataManager.startAutoSaveTask();
+        
         // Check for updates
         checkForUpdates();
         

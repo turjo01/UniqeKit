@@ -140,22 +140,57 @@ public class Kit {
     
     private static PotionEffect createPotionEffect(Map<?, ?> effectMap) {
         try {
-            String type = (String) effectMap.get("type");
+            Object typeObj = effectMap.get("type");
+            if (typeObj == null) return null;
+            String type = typeObj.toString();
             
             Object durationObj = effectMap.get("duration");
-            int duration = durationObj instanceof Integer ? (Integer) durationObj : 600;
+            int duration = 600;
+            if (durationObj instanceof Number) {
+                duration = ((Number) durationObj).intValue();
+            } else if (durationObj != null) {
+                try {
+                    duration = Integer.parseInt(durationObj.toString());
+                } catch (NumberFormatException ignored) {
+                    duration = 600;
+                }
+            }
             
             Object amplifierObj = effectMap.get("amplifier");
-            int amplifier = amplifierObj instanceof Integer ? (Integer) amplifierObj : 0;
+            int amplifier = 0;
+            if (amplifierObj instanceof Number) {
+                amplifier = ((Number) amplifierObj).intValue();
+            } else if (amplifierObj != null) {
+                try {
+                    amplifier = Integer.parseInt(amplifierObj.toString());
+                } catch (NumberFormatException ignored) {
+                    amplifier = 0;
+                }
+            }
             
             Object ambientObj = effectMap.get("ambient");
-            boolean ambient = ambientObj instanceof Boolean ? (Boolean) ambientObj : false;
+            boolean ambient = false;
+            if (ambientObj instanceof Boolean) {
+                ambient = (Boolean) ambientObj;
+            } else if (ambientObj != null) {
+                ambient = Boolean.parseBoolean(ambientObj.toString());
+            }
             
             Object particlesObj = effectMap.get("particles");
-            boolean particles = particlesObj instanceof Boolean ? (Boolean) particlesObj : true;
+            boolean particles = true;
+            if (particlesObj instanceof Boolean) {
+                particles = (Boolean) particlesObj;
+            } else if (particlesObj != null) {
+                particles = Boolean.parseBoolean(particlesObj.toString());
+            }
             
             Object iconObj = effectMap.get("icon");
-            boolean icon = iconObj instanceof Boolean ? (Boolean) iconObj : true;
+            boolean icon = true;
+            if (iconObj instanceof Boolean) {
+                icon = (Boolean) iconObj;
+            } else if (iconObj != null) {
+                icon = Boolean.parseBoolean(iconObj.toString());
+            }
             
             PotionEffectType effectType = PotionEffectType.getByName(type.toUpperCase());
             if (effectType != null) {
@@ -256,19 +291,49 @@ public class Kit {
             
             switch (requirement) {
                 case "level":
-                    if (player.getLevel() < (Integer) value) {
+                    int requiredLevel = 0;
+                    if (value instanceof Number) {
+                        requiredLevel = ((Number) value).intValue();
+                    } else if (value != null) {
+                        try {
+                            requiredLevel = Integer.parseInt(value.toString());
+                        } catch (NumberFormatException ignored) {
+                            continue;
+                        }
+                    }
+                    if (player.getLevel() < requiredLevel) {
                         return false;
                     }
                     break;
                 case "exp":
-                    if (player.getTotalExperience() < (Integer) value) {
+                    int requiredExp = 0;
+                    if (value instanceof Number) {
+                        requiredExp = ((Number) value).intValue();
+                    } else if (value != null) {
+                        try {
+                            requiredExp = Integer.parseInt(value.toString());
+                        } catch (NumberFormatException ignored) {
+                            continue;
+                        }
+                    }
+                    if (player.getTotalExperience() < requiredExp) {
                         return false;
                     }
                     break;
                 case "money":
                     if (UniqueKits.getInstance().getHookManager().getEconomy() != null) {
                         double balance = UniqueKits.getInstance().getHookManager().getEconomy().getBalance(player);
-                        if (balance < (Double) value) {
+                        double requiredMoney = 0.0;
+                        if (value instanceof Number) {
+                            requiredMoney = ((Number) value).doubleValue();
+                        } else if (value != null) {
+                            try {
+                                requiredMoney = Double.parseDouble(value.toString());
+                            } catch (NumberFormatException ignored) {
+                                continue;
+                            }
+                        }
+                        if (balance < requiredMoney) {
                             return false;
                         }
                     }

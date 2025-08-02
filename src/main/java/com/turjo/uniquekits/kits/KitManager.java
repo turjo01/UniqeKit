@@ -278,25 +278,25 @@ public class KitManager {
         return kits.values().stream()
             .filter(kit -> kit.canUse(player))
             .sorted(Comparator.comparingInt(Kit::getPriority).reversed())
-            .toList();
+            .collect(java.util.stream.Collectors.toList());
     }
     
     public List<Kit> getFirstJoinKits() {
         return kits.values().stream()
             .filter(Kit::isFirstJoinKit)
-            .toList();
+            .collect(java.util.stream.Collectors.toList());
     }
     
     public List<Kit> getAutoJoinKits() {
         return kits.values().stream()
             .filter(Kit::isAutoGiveOnJoin)
-            .toList();
+            .collect(java.util.stream.Collectors.toList());
     }
     
     public List<Kit> getAutoRespawnKits() {
         return kits.values().stream()
             .filter(Kit::isAutoGiveOnRespawn)
-            .toList();
+            .collect(java.util.stream.Collectors.toList());
     }
     
     public void createKit(String kitId) {

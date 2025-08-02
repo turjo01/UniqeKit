@@ -202,8 +202,13 @@ public class GuiManager implements Listener {
     }
     
     private void handleKitSelectionClick(Player player, GuiSession session, int slot, boolean rightClick) {
+        Object data = session.getData();
+        if (!(data instanceof List)) {
+            return;
+        }
+        
         @SuppressWarnings("unchecked")
-        List<Kit> kits = (List<Kit>) session.getData();
+        List<Kit> kits = (List<Kit>) data;
         
         if (slot == 49) { // Close button
             player.closeInventory();
@@ -225,7 +230,11 @@ public class GuiManager implements Listener {
     }
     
     private void handleKitPreviewClick(Player player, GuiSession session, int slot) {
-        Kit kit = (Kit) session.getData();
+        Object data = session.getData();
+        if (!(data instanceof Kit)) {
+            return;
+        }
+        Kit kit = (Kit) data;
         
         if (slot == 49) { // Claim button
             plugin.getKitManager().giveKit(player, kit, false);
@@ -236,6 +245,11 @@ public class GuiManager implements Listener {
     }
     
     private void handleKitEditorClick(Player player, GuiSession session, int slot) {
+        Object data = session.getData();
+        if (!(data instanceof Kit)) {
+            return;
+        }
+        
         if (slot == 45) { // Save button
             saveKitFromEditor(player, session);
             MessageUtils.sendMessage(player, "§aKit saved successfully!");
@@ -248,7 +262,11 @@ public class GuiManager implements Listener {
     }
     
     private void saveKitFromEditor(Player player, GuiSession session) {
-        Kit kit = (Kit) session.getData();
+        Object data = session.getData();
+        if (!(data instanceof Kit)) {
+            return;
+        }
+        Kit kit = (Kit) data;
         Inventory inventory = session.getInventory();
         
         // Collect items from inventory (slots 0-44)

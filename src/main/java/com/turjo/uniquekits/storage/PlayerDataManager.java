@@ -103,6 +103,6 @@ public class PlayerDataManager {
             saveAllPlayerData();
         }, interval, interval);
         
-        plugin.getLogger().info("§a[PlayerDataManager] Auto-save task started with interval: " + (interval / 1200) + " minutes");
+        plugin.getLogger().info("§a[PlayerDataManager] Auto-save task started with interval: " + (interval / 20 / 60) + " minutes");
     }
 }

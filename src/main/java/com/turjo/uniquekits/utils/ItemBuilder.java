@@ -73,6 +73,7 @@ public class ItemBuilder {
         return this;
     }
     
+    @SuppressWarnings("deprecation")
     public ItemBuilder durability(short durability) {
         itemStack.setDurability(durability);
         return this;
@@ -153,55 +154,102 @@ public class ItemBuilder {
             .build();
     }
     
-    @SuppressWarnings("unchecked")
     public static ItemStack fromMap(Map<?, ?> map) {
         try {
             // Try to deserialize the ItemStack
-            ItemStack item = ItemStack.deserialize((Map<String, Object>) map);
+            @SuppressWarnings("unchecked")
+            Map<String, Object> stringMap = (Map<String, Object>) map;
+            ItemStack item = ItemStack.deserialize(stringMap);
             return item;
         } catch (Exception e) {
             // If deserialization fails, try to create manually
             try {
-                String type = (String) map.get("type");
-                int amount = (Integer) map.getOrDefault("amount", 1);
+                Object typeObj = map.get("type");
+                Object amountObj = map.get("amount");
                 
-                Material material = Material.valueOf(type.toUpperCase());
+                if (typeObj == null) {
+                    return new ItemStack(Material.STONE);
+                }
+                
+                String type = typeObj.toString();
+                int amount = 1;
+                
+                if (amountObj instanceof Number) {
+                    amount = ((Number) amountObj).intValue();
+                } else if (amountObj != null) {
+                    try {
+                        amount = Integer.parseInt(amountObj.toString());
+                    } catch (NumberFormatException ignored) {
+                        amount = 1;
+                    }
+                }
+                
+                Material material;
+                try {
+                    material = Material.valueOf(type.toUpperCase());
+                } catch (IllegalArgumentException ex) {
+                    material = Material.STONE;
+                }
+                
                 ItemBuilder builder = new ItemBuilder(material, amount);
                 
                 // Handle meta if present
-                if (map.containsKey("meta")) {
-                    Map<?, ?> metaMap = (Map<?, ?>) map.get("meta");
+                Object metaObj = map.get("meta");
+                if (metaObj instanceof Map) {
+                    @SuppressWarnings("unchecked")
+                    Map<String, Object> metaMap = (Map<String, Object>) metaObj;
                     
-                    if (metaMap.containsKey("display-name")) {
-                        builder.name((String) metaMap.get("display-name"));
+                    Object displayNameObj = metaMap.get("display-name");
+                    if (displayNameObj != null) {
+                        builder.name(displayNameObj.toString());
                     }
                     
-                    if (metaMap.containsKey("lore")) {
-                        List<String> lore = (List<String>) metaMap.get("lore");
+                    Object loreObj = metaMap.get("lore");
+                    if (loreObj instanceof List) {
+                        @SuppressWarnings("unchecked")
+                        List<String> lore = (List<String>) loreObj;
                         builder.lore(lore);
                     }
                     
-                    if (metaMap.containsKey("enchants")) {
-                        Map<String, Integer> enchants = (Map<String, Integer>) metaMap.get("enchants");
-                        for (Map.Entry<String, Integer> entry : enchants.entrySet()) {
+                    Object enchantsObj = metaMap.get("enchants");
+                    if (enchantsObj instanceof Map) {
+                        @SuppressWarnings("unchecked")
+                        Map<String, Object> enchants = (Map<String, Object>) enchantsObj;
+                        for (Map.Entry<String, Object> entry : enchants.entrySet()) {
                             try {
                                 Enchantment enchant = Enchantment.getByName(entry.getKey());
                                 if (enchant != null) {
-                                    builder.unsafeEnchant(enchant, entry.getValue());
+                                    int level = 1;
+                                    if (entry.getValue() instanceof Number) {
+                                        level = ((Number) entry.getValue()).intValue();
+                                    } else if (entry.getValue() != null) {
+                                        try {
+                                            level = Integer.parseInt(entry.getValue().toString());
+                                        } catch (NumberFormatException ignored) {
+                                            level = 1;
+                                        }
+                                    }
+                                    builder.unsafeEnchant(enchant, level);
                                 }
                             } catch (Exception ignored) {}
                         }
                     }
                     
-                    if (metaMap.containsKey("custom-model-data")) {
-                        Object customModelDataObj = metaMap.get("custom-model-data");
-                        if (customModelDataObj instanceof Number) {
-                            builder.customModelData(((Number) customModelDataObj).intValue());
-                        }
+                    Object customModelDataObj = metaMap.get("custom-model-data");
+                    if (customModelDataObj instanceof Number) {
+                        builder.customModelData(((Number) customModelDataObj).intValue());
+                    } else if (customModelDataObj != null) {
+                        try {
+                            int customModelData = Integer.parseInt(customModelDataObj.toString());
+                            builder.customModelData(customModelData);
+                        } catch (NumberFormatException ignored) {}
                     }
                     
-                    if (metaMap.containsKey("unbreakable")) {
-                        builder.unbreakable((Boolean) metaMap.get("unbreakable"));
+                    Object unbreakableObj = metaMap.get("unbreakable");
+                    if (unbreakableObj instanceof Boolean) {
+                        builder.unbreakable((Boolean) unbreakableObj);
+                    } else if (unbreakableObj != null) {
+                        builder.unbreakable(Boolean.parseBoolean(unbreakableObj.toString()));
                     }
                 }
                 
