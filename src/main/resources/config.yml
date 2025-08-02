@@ -50,6 +50,8 @@ hooks:
   # PlaceholderAPI integration
   placeholderapi:
     enabled: true
+    import-on-startup: false
+    preserve-original-names: true
   
   # MythicMobs integration
   mythicmobs:

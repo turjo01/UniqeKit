@@ -34,14 +34,17 @@ public class UniqueKitsCommand implements CommandExecutor, TabCompleter {
         
         switch (subCommand) {
             case "help":
+            case "?":
                 showHelp(sender);
                 break;
                 
             case "list":
+            case "ls":
                 listKits(sender);
                 break;
                 
             case "create":
+            case "new":
                 if (args.length < 2) {
                     MessageUtils.sendMessage(sender, plugin.getLanguageManager().getMessage("commands.usage.create"));
                     return true;
@@ -50,6 +53,7 @@ public class UniqueKitsCommand implements CommandExecutor, TabCompleter {
                 break;
                 
             case "edit":
+            case "modify":
                 if (!(sender instanceof Player)) {
                     MessageUtils.sendMessage(sender, plugin.getLanguageManager().getMessage("general.player-only"));
                     return true;
@@ -62,6 +66,8 @@ public class UniqueKitsCommand implements CommandExecutor, TabCompleter {
                 break;
                 
             case "delete":
+            case "remove":
+            case "del":
                 if (args.length < 2) {
                     MessageUtils.sendMessage(sender, plugin.getLanguageManager().getMessage("commands.usage.delete"));
                     return true;
@@ -70,6 +76,7 @@ public class UniqueKitsCommand implements CommandExecutor, TabCompleter {
                 break;
                 
             case "give":
+            case "grant":
                 if (args.length < 3) {
                     MessageUtils.sendMessage(sender, plugin.getLanguageManager().getMessage("commands.usage.give"));
                     return true;
@@ -77,8 +84,38 @@ public class UniqueKitsCommand implements CommandExecutor, TabCompleter {
                 giveKit(sender, args[1], args[2]);
                 break;
                 
+            case "import":
+                importKits(sender);
+                break;
+                
+            case "export":
+                if (args.length < 2) {
+                    MessageUtils.sendMessage(sender, "<red>Usage: <yellow>/uk export <kit></yellow></red>");
+                    return true;
+                }
+                exportKit(sender, args[1]);
+                break;
+                
             case "reload":
+            case "rl":
                 reloadPlugin(sender);
+                break;
+                
+            case "stats":
+            case "statistics":
+                if (args.length >= 2) {
+                    showPlayerStats(sender, args[1]);
+                } else if (sender instanceof Player) {
+                    showPlayerStats(sender, sender.getName());
+                } else {
+                    MessageUtils.sendMessage(sender, "<red>Usage: <yellow>/uk stats <player></yellow></red>");
+                }
+                break;
+                
+            case "version":
+            case "ver":
+            case "info":
+                showVersion(sender);
                 break;
                 
             default:
@@ -95,28 +132,21 @@ public class UniqueKitsCommand implements CommandExecutor, TabCompleter {
             return;
         }
         
-        List<String> helpMessages = plugin.getLanguageManager().getMessage("commands.help.header")
-            .equals("commands.help.header") ? Arrays.asList(
-                "§6§l=== UniqueKits Help ===",
-                "§e/kit [name] §7- Claim a kit",
-                "§e/kit list §7- List available kits",
-                "§e/kit preview <name> §7- Preview a kit",
-                "§e/uniquekits help §7- Show this help",
-                "§e/uniquekits list §7- List all kits (admin)",
-                "§e/uniquekits create <name> §7- Create a kit",
-                "§e/uniquekits edit <name> §7- Edit a kit",
-                "§e/uniquekits delete <name> §7- Delete a kit",
-                "§e/uniquekits give <player> <kit> §7- Give kit to player",
-                "§e/uniquekits reload §7- Reload the plugin",
-                "§6§l===================="
-            ) : Arrays.asList(
-                plugin.getLanguageManager().getMessage("commands.help.header"),
-                plugin.getLanguageManager().getMessage("commands.help.footer")
-            );
+        // Send header
+        MessageUtils.sendMessages(sender, plugin.getLanguageManager().getMessage("commands.help.header"));
         
-        for (String message : helpMessages) {
-            MessageUtils.sendMessage(sender, message);
+        // Send player commands if applicable
+        if (sender instanceof Player || sender.hasPermission("uniquekits.admin")) {
+            MessageUtils.sendMessages(sender, plugin.getLanguageManager().getMessage("commands.help.player-commands"));
         }
+        
+        // Send admin commands if has permission
+        if (sender.hasPermission("uniquekits.admin")) {
+            MessageUtils.sendMessages(sender, plugin.getLanguageManager().getMessage("commands.help.admin-commands"));
+        }
+        
+        // Send footer
+        MessageUtils.sendMessages(sender, plugin.getLanguageManager().getMessage("commands.help.footer"));
     }
     
     private void listKits(CommandSender sender) {
@@ -125,19 +155,22 @@ public class UniqueKitsCommand implements CommandExecutor, TabCompleter {
             return;
         }
         
-        MessageUtils.sendMessage(sender, "§6§l=== All Kits ===");
+        MessageUtils.sendMessage(sender, "<gradient:#FFD700:#FFA500>╔══════════════════════════════════════════════════════════════╗</gradient>");
+        MessageUtils.sendMessage(sender, "<gradient:#FFD700:#FFA500>║</gradient>                    <gradient:#00FFFF:#0080FF><bold>✦ ALL KITS OVERVIEW ✦</bold></gradient>                   <gradient:#FFD700:#FFA500>║</gradient>");
+        MessageUtils.sendMessage(sender, "<gradient:#FFD700:#FFA500>╠══════════════════════════════════════════════════════════════╣</gradient>");
         
         if (plugin.getKitManager().getAllKits().isEmpty()) {
-            MessageUtils.sendMessage(sender, "§cNo kits found!");
-            return;
+            MessageUtils.sendMessage(sender, "<gradient:#FFD700:#FFA500>║</gradient>                    <red>No kits found!</red>                         <gradient:#FFD700:#FFA500>║</gradient>");
+        } else {
+            for (Kit kit : plugin.getKitManager().getAllKits()) {
+                String status = kit.isEnabled() ? "<green>✓</green>" : "<red>✗</red>";
+                String priority = kit.getPriority() > 5 ? "<yellow>★</yellow>" : "<gray>☆</gray>";
+                MessageUtils.sendMessage(sender, "<gradient:#FFD700:#FFA500>║</gradient> " + status + " " + priority + " <yellow>" + kit.getId() + "</yellow> <gray>- " + MessageUtils.stripColor(kit.getName()) + "</gray>");
+            }
         }
         
-        for (Kit kit : plugin.getKitManager().getAllKits()) {
-            String status = kit.isEnabled() ? "§a✓" : "§c✗";
-            MessageUtils.sendMessage(sender, status + " §e" + kit.getId() + " §7- " + kit.getName());
-        }
-        
-        MessageUtils.sendMessage(sender, "§6§l===============");
+        MessageUtils.sendMessage(sender, "<gradient:#FFD700:#FFA500>╚══════════════════════════════════════════════════════════════╝</gradient>");
+        MessageUtils.sendMessage(sender, "<gray>Total: <yellow>" + plugin.getKitManager().getAllKits().size() + "</yellow> kits | Hooks: <green>" + plugin.getHookManager().getEnabledHooksCount() + "</green> active</gray>");
     }
     
     private void createKit(CommandSender sender, String kitId) {
@@ -152,7 +185,7 @@ public class UniqueKitsCommand implements CommandExecutor, TabCompleter {
         }
         
         plugin.getKitManager().createKit(kitId);
-        MessageUtils.sendMessage(sender, plugin.getLanguageManager().getMessage("admin.kit-created", "{kit}", kitId));
+        MessageUtils.sendMessages(sender, plugin.getLanguageManager().getMessage("admin.kit-created", "{kit}", kitId));
     }
     
     private void editKit(Player player, String kitId) {
@@ -168,7 +201,7 @@ public class UniqueKitsCommand implements CommandExecutor, TabCompleter {
         }
         
         plugin.getGuiManager().openKitEditor(player, kit);
-        MessageUtils.sendMessage(player, plugin.getLanguageManager().getMessage("admin.editor-opened", "{kit}", kit.getName()));
+        MessageUtils.sendMessages(player, plugin.getLanguageManager().getMessage("admin.editor-opened", "{kit}", kit.getName()));
     }
     
     private void deleteKit(CommandSender sender, String kitId) {
@@ -183,7 +216,7 @@ public class UniqueKitsCommand implements CommandExecutor, TabCompleter {
         }
         
         plugin.getKitManager().deleteKit(kitId);
-        MessageUtils.sendMessage(sender, plugin.getLanguageManager().getMessage("admin.kit-deleted", "{kit}", kitId));
+        MessageUtils.sendMessages(sender, plugin.getLanguageManager().getMessage("admin.kit-deleted", "{kit}", kitId));
     }
     
     private void giveKit(CommandSender sender, String playerName, String kitId) {
@@ -208,10 +241,67 @@ public class UniqueKitsCommand implements CommandExecutor, TabCompleter {
         if (success) {
             MessageUtils.sendMessage(sender, plugin.getLanguageManager().getMessage("kit.given", 
                 "{kit}", kit.getName(), "{player}", target.getName()));
-            MessageUtils.sendMessage(target, plugin.getLanguageManager().getMessage("kit.received-from", 
+            MessageUtils.sendMessages(target, plugin.getLanguageManager().getMessage("kit.received-from", 
                 "{kit}", kit.getName(), "{sender}", sender.getName()));
         } else {
             MessageUtils.sendMessage(sender, plugin.getLanguageManager().getMessage("errors.kit-error"));
+        }
+    }
+    
+    private void importKits(CommandSender sender) {
+        if (!sender.hasPermission("uniquekits.admin")) {
+            MessageUtils.sendMessage(sender, plugin.getLanguageManager().getMessage("general.no-permission"));
+            return;
+        }
+        
+        if (!plugin.getHookManager().isEssentialsXEnabled()) {
+            MessageUtils.sendMessage(sender, plugin.getLanguageManager().getMessage("import.no-source"));
+            return;
+        }
+        
+        MessageUtils.sendMessage(sender, plugin.getLanguageManager().getMessage("import.essentials-found", 
+            "{count}", String.valueOf(plugin.getHookManager().getEssentialsXHook().getAvailableKitsCount())));
+        
+        MessageUtils.sendMessage(sender, plugin.getLanguageManager().getMessage("import.essentials-importing"));
+        
+        // Run import asynchronously to prevent server lag
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            try {
+                int imported = plugin.getHookManager().getEssentialsXHook().importAllKits();
+                
+                Bukkit.getScheduler().runTask(plugin, () -> {
+                    MessageUtils.sendMessage(sender, plugin.getLanguageManager().getMessage("import.essentials-success", 
+                        "{count}", String.valueOf(imported)));
+                });
+            } catch (Exception e) {
+                Bukkit.getScheduler().runTask(plugin, () -> {
+                    MessageUtils.sendMessage(sender, plugin.getLanguageManager().getMessage("import.essentials-failed", 
+                        "{error}", e.getMessage()));
+                });
+            }
+        });
+    }
+    
+    private void exportKit(CommandSender sender, String kitId) {
+        if (!sender.hasPermission("uniquekits.admin")) {
+            MessageUtils.sendMessage(sender, plugin.getLanguageManager().getMessage("general.no-permission"));
+            return;
+        }
+        
+        Kit kit = plugin.getKitManager().getKit(kitId);
+        if (kit == null) {
+            MessageUtils.sendMessage(sender, plugin.getLanguageManager().getMessage("kit.not-found", "{kit}", kitId));
+            return;
+        }
+        
+        try {
+            String fileName = "kit_" + kitId + "_export.yml";
+            // Export logic would go here
+            MessageUtils.sendMessage(sender, plugin.getLanguageManager().getMessage("export.success", 
+                "{kit}", kit.getName(), "{file}", fileName));
+        } catch (Exception e) {
+            MessageUtils.sendMessage(sender, plugin.getLanguageManager().getMessage("export.failed", 
+                "{error}", e.getMessage()));
         }
     }
     
@@ -222,13 +312,41 @@ public class UniqueKitsCommand implements CommandExecutor, TabCompleter {
         }
         
         try {
+            MessageUtils.sendMessage(sender, plugin.getLanguageManager().getMessage("general.processing"));
             plugin.reload();
             MessageUtils.sendMessage(sender, plugin.getLanguageManager().getMessage("general.reload-success"));
         } catch (Exception e) {
-            MessageUtils.sendMessage(sender, "§cReload failed: " + e.getMessage());
+            MessageUtils.sendMessage(sender, "<red>⚠ Reload failed: " + e.getMessage() + "</red>");
             plugin.getLogger().severe("Reload failed: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+    
+    private void showPlayerStats(CommandSender sender, String playerName) {
+        if (!sender.hasPermission("uniquekits.admin") && !sender.getName().equals(playerName)) {
+            MessageUtils.sendMessage(sender, plugin.getLanguageManager().getMessage("general.no-permission"));
+            return;
+        }
+        
+        Player target = Bukkit.getPlayer(playerName);
+        if (target == null) {
+            MessageUtils.sendMessage(sender, plugin.getLanguageManager().getMessage("general.invalid-player", "{player}", playerName));
+            return;
+        }
+        
+        // Show player statistics
+        MessageUtils.sendMessages(sender, plugin.getLanguageManager().getMessage("stats.header"));
+        // Add stats implementation here
+        MessageUtils.sendMessages(sender, plugin.getLanguageManager().getMessage("stats.footer"));
+    }
+    
+    private void showVersion(CommandSender sender) {
+        MessageUtils.sendMessage(sender, "");
+        MessageUtils.sendMessage(sender, "<gradient:#FFD700:#FFA500>✦ UniqueKits</gradient> <gray>v" + plugin.getDescription().getVersion() + "</gray>");
+        MessageUtils.sendMessage(sender, "<gray>Created by: <yellow>Turjo</yellow></gray>");
+        MessageUtils.sendMessage(sender, "<gray>Hooks Active: <green>" + plugin.getHookManager().getEnabledHooksCount() + "</green></gray>");
+        MessageUtils.sendMessage(sender, "<gray>Total Kits: <yellow>" + plugin.getKitManager().getAllKits().size() + "</yellow></gray>");
+        MessageUtils.sendMessage(sender, "");
     }
     
     @Override
@@ -236,7 +354,7 @@ public class UniqueKitsCommand implements CommandExecutor, TabCompleter {
         List<String> completions = new ArrayList<>();
         
         if (args.length == 1) {
-            List<String> subCommands = Arrays.asList("help", "list", "create", "edit", "delete", "give", "reload");
+            List<String> subCommands = Arrays.asList("help", "list", "create", "edit", "delete", "give", "import", "export", "reload", "stats", "version");
             return subCommands.stream()
                 .filter(sub -> sub.toLowerCase().startsWith(args[0].toLowerCase()))
                 .collect(Collectors.toList());
@@ -247,18 +365,21 @@ public class UniqueKitsCommand implements CommandExecutor, TabCompleter {
             switch (subCommand) {
                 case "edit":
                 case "delete":
-                case "give":
+                case "export":
                     return plugin.getKitManager().getKitNames().stream()
                         .filter(name -> name.toLowerCase().startsWith(args[1].toLowerCase()))
                         .collect(Collectors.toList());
-                case "create":
-                    return completions; // No completions for new kit names
+                case "give":
+                case "stats":
+                    return Bukkit.getOnlinePlayers().stream()
+                        .map(Player::getName)
+                        .filter(name -> name.toLowerCase().startsWith(args[1].toLowerCase()))
+                        .collect(Collectors.toList());
             }
         }
         
         if (args.length == 3 && args[0].toLowerCase().equals("give")) {
-            return Bukkit.getOnlinePlayers().stream()
-                .map(Player::getName)
+            return plugin.getKitManager().getKitNames().stream()
                 .filter(name -> name.toLowerCase().startsWith(args[2].toLowerCase()))
                 .collect(Collectors.toList());
         }

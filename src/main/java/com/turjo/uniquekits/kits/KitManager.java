@@ -305,6 +305,10 @@ public class KitManager {
         saveKit(kit);
     }
     
+    public void addKit(Kit kit) {
+        kits.put(kit.getId().toLowerCase(), kit);
+    }
+    
     public boolean kitExists(String kitId) {
         return kits.containsKey(kitId.toLowerCase());
     }

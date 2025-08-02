@@ -1,125 +1,285 @@
-# UniqueKits English Language File
-# All messages and text displayed by the plugin
+# UniqueKits English Language File - Advanced Edition
+# All messages and text displayed by the plugin with stunning colors and effects
 
 # General Messages
 general:
-  prefix: "&6[&eUniqueKits&6] "
-  no-permission: "&cYou don't have permission to use this command!"
-  player-only: "&cThis command can only be used by players!"
-  invalid-player: "&cPlayer '{player}' not found!"
-  reload-success: "&aPlugin reloaded successfully!"
-  config-error: "&cError in configuration file: {error}"
+  prefix: "<gradient:#FFD700:#FFA500>✦ UniqueKits</gradient> <dark_gray>»</dark_gray> "
+  no-permission: "<red>⚠ You don't have permission to use this command!</red>"
+  player-only: "<red>⚠ This command can only be used by players!</red>"
+  invalid-player: "<red>⚠ Player '<yellow>{player}</yellow>' not found or offline!</red>"
+  reload-success: "<green>✓ Plugin reloaded successfully! All systems operational.</green>"
+  config-error: "<red>⚠ Configuration error: <yellow>{error}</yellow></red>"
+  loading: "<yellow>⏳ Loading...</yellow>"
+  processing: "<blue>🔄 Processing your request...</blue>"
 
-# Command Messages
+# Command Messages with Beautiful Formatting
 commands:
   help:
-    header: "&6&l=== UniqueKits Help ==="
-    commands:
-      - "&e/kit [name] &7- Claim a kit"
-      - "&e/kit list &7- List available kits"
-      - "&e/kit preview <name> &7- Preview a kit"
-      - "&e/uniquekits help &7- Show this help"
-      - "&e/uniquekits list &7- List all kits (admin)"
-      - "&e/uniquekits create <name> &7- Create a kit"
-      - "&e/uniquekits edit <name> &7- Edit a kit"
-      - "&e/uniquekits delete <name> &7- Delete a kit"
-      - "&e/uniquekits give <player> <kit> &7- Give kit to player"
-      - "&e/uniquekits reload &7- Reload the plugin"
-    footer: "&6&l===================="
+    header: 
+      - ""
+      - "<gradient:#00FFFF:#0080FF>╔══════════════════════════════════════════════════════════════╗</gradient>"
+      - "<gradient:#00FFFF:#0080FF>║</gradient>                    <gradient:#FFD700:#FFA500><bold>✦ UNIQUEKITS HELP ✦</bold></gradient>                    <gradient:#00FFFF:#0080FF>║</gradient>"
+      - "<gradient:#00FFFF:#0080FF>╠══════════════════════════════════════════════════════════════╣</gradient>"
+    player-commands:
+      - "<gradient:#00FFFF:#0080FF>║</gradient> <gradient:#00FF00:#32CD32><bold>PLAYER COMMANDS:</bold></gradient>                                        <gradient:#00FFFF:#0080FF>║</gradient>"
+      - "<gradient:#00FFFF:#0080FF>║</gradient> <yellow>/kit</yellow> <gray>- Open the stunning kit selection GUI</gray>           <gradient:#00FFFF:#0080FF>║</gradient>"
+      - "<gradient:#00FFFF:#0080FF>║</gradient> <yellow>/kit <name></yellow> <gray>- Instantly claim a specific kit</gray>        <gradient:#00FFFF:#0080FF>║</gradient>"
+      - "<gradient:#00FFFF:#0080FF>║</gradient> <yellow>/kit list</yellow> <gray>- View all available kits</gray>                <gradient:#00FFFF:#0080FF>║</gradient>"
+      - "<gradient:#00FFFF:#0080FF>║</gradient> <yellow>/kit preview <name></yellow> <gray>- Preview kit contents</gray>         <gradient:#00FFFF:#0080FF>║</gradient>"
+      - "<gradient:#00FFFF:#0080FF>║</gradient> <yellow>/kit random</yellow> <gray>- Get a random available kit</gray>           <gradient:#00FFFF:#0080FF>║</gradient>"
+      - "<gradient:#00FFFF:#0080FF>║</gradient> <yellow>/kit cooldowns</yellow> <gray>- Check your kit cooldowns</gray>         <gradient:#00FFFF:#0080FF>║</gradient>"
+      - "<gradient:#00FFFF:#0080FF>║</gradient> <yellow>/kit stats</yellow> <gray>- View your kit statistics</gray>             <gradient:#00FFFF:#0080FF>║</gradient>"
+    admin-commands:
+      - "<gradient:#00FFFF:#0080FF>║</gradient> <gradient:#FF4500:#FF6347><bold>ADMIN COMMANDS:</bold></gradient>                                         <gradient:#00FFFF:#0080FF>║</gradient>"
+      - "<gradient:#00FFFF:#0080FF>║</gradient> <red>/uk create <name></red> <gray>- Create a new kit</gray>                 <gradient:#00FFFF:#0080FF>║</gradient>"
+      - "<gradient:#00FFFF:#0080FF>║</gradient> <red>/uk edit <name></red> <gray>- Open advanced kit editor</gray>          <gradient:#00FFFF:#0080FF>║</gradient>"
+      - "<gradient:#00FFFF:#0080FF>║</gradient> <red>/uk delete <name></red> <gray>- Delete a kit permanently</gray>         <gradient:#00FFFF:#0080FF>║</gradient>"
+      - "<gradient:#00FFFF:#0080FF>║</gradient> <red>/uk give <player> <kit></red> <gray>- Give kit to player</gray>       <gradient:#00FFFF:#0080FF>║</gradient>"
+      - "<gradient:#00FFFF:#0080FF>║</gradient> <red>/uk import</red> <gray>- Import kits from other plugins</gray>         <gradient:#00FFFF:#0080FF>║</gradient>"
+      - "<gradient:#00FFFF:#0080FF>║</gradient> <red>/uk export <kit></red> <gray>- Export kit configuration</gray>         <gradient:#00FFFF:#0080FF>║</gradient>"
+      - "<gradient:#00FFFF:#0080FF>║</gradient> <red>/uk reload</red> <gray>- Reload plugin configuration</gray>            <gradient:#00FFFF:#0080FF>║</gradient>"
+      - "<gradient:#00FFFF:#0080FF>║</gradient> <red>/uk stats <player></red> <gray>- View player kit stats</gray>         <gradient:#00FFFF:#0080FF>║</gradient>"
+    footer:
+      - "<gradient:#00FFFF:#0080FF>╚══════════════════════════════════════════════════════════════╝</gradient>"
+      - "<gray>Tip: Use <yellow>/kit</yellow> to open the beautiful GUI interface!</gray>"
+      - ""
   
   usage:
-    kit: "&cUsage: /kit [name|list|preview <name>]"
-    uniquekits: "&cUsage: /uniquekits [help|list|create|edit|delete|give|reload]"
-    create: "&cUsage: /uniquekits create <name>"
-    edit: "&cUsage: /uniquekits edit <name>"
-    delete: "&cUsage: /uniquekits delete <name>"
-    give: "&cUsage: /uniquekits give <player> <kit>"
-    preview: "&cUsage: /kit preview <name>"
+    kit: "<red>Usage: <yellow>/kit [name|list|preview <name>|random|cooldowns|stats]</yellow></red>"
+    uniquekits: "<red>Usage: <yellow>/uk [create|edit|delete|give|import|export|reload|stats]</yellow></red>"
+    create: "<red>Usage: <yellow>/uk create <name></yellow></red>"
+    edit: "<red>Usage: <yellow>/uk edit <name></yellow></red>"
+    delete: "<red>Usage: <yellow>/uk delete <name></yellow></red>"
+    give: "<red>Usage: <yellow>/uk give <player> <kit></yellow></red>"
+    preview: "<red>Usage: <yellow>/kit preview <name></yellow></red>"
 
-# Kit Messages
+# Kit Messages with Stunning Effects
 kit:
-  not-found: "&cKit '{kit}' not found!"
-  no-permission: "&cYou don't have permission to use this kit!"
-  cooldown: "&cThis kit is on cooldown! Time remaining: &e{time}"
-  already-used: "&cYou have already used this one-time kit!"
-  insufficient-funds: "&cYou need ${cost} to use this kit! You have ${balance}"
-  received: "&aYou have received the {kit} &akit!"
-  overflow-stored: "&eYour inventory was full! Extra items have been stored in your virtual chest."
-  overflow-dropped: "&eYour inventory was full! Extra items have been dropped on the ground."
-  given: "&aYou gave the {kit} &akit to &e{player}&a!"
-  received-from: "&aYou received the {kit} &akit from &e{sender}&a!"
-  preview-header: "&6&l=== Kit Preview: {kit} &6&l==="
-  preview-footer: "&6&l========================"
-  list-header: "&6&l=== Available Kits ==="
-  list-item: "&e{kit} &7- {description}"
-  list-cooldown: "&c(Cooldown: {time})"
-  list-cost: "&a(Cost: ${cost})"
-  list-footer: "&6&l=================="
-  no-kits-available: "&cNo kits are available for you!"
+  not-found: "<red>⚠ Kit '<yellow>{kit}</yellow>' doesn't exist! Use <yellow>/kit list</yellow> to see available kits.</red>"
+  no-permission: "<red>🔒 You don't have permission to use this kit! Required: <yellow>{permission}</yellow></red>"
+  cooldown: 
+    - "<red>⏰ This kit is on cooldown!</red>"
+    - "<gray>Time remaining: <gradient:#FF6B6B:#FF8E53>{time}</gradient></gray>"
+    - "<gray>💡 Tip: Use <yellow>/kit cooldowns</yellow> to see all your cooldowns!</gray>"
+  already-used: "<red>⚠ You have already used this one-time kit! It cannot be claimed again.</red>"
+  insufficient-funds: 
+    - "<red>💰 Insufficient funds to purchase this kit!</red>"
+    - "<gray>Required: <green>${cost}</green> | Your balance: <red>${balance}</red></gray>"
+  insufficient-level: "<red>📊 You need to be level <yellow>{level}</yellow> to use this kit! Current level: <red>{current}</red></red>"
+  world-restricted: "<red>🌍 This kit is not available in your current world!</red>"
+  
+  received: 
+    - ""
+    - "<gradient:#00FF00:#32CD32>✓ Successfully received the <bold>{kit}</bold> kit!</gradient>"
+    - "<gray>Items have been added to your inventory.</gray>"
+    - ""
+  
+  overflow-stored: 
+    - "<yellow>📦 Your inventory was full! Extra items stored in virtual chest.</yellow>"
+    - "<gray>Use <yellow>/kit storage</yellow> to access stored items.</gray>"
+  
+  overflow-dropped: "<yellow>⚠ Your inventory was full! Extra items dropped at your location.</yellow>"
+  
+  given: "<green>✓ Successfully gave the <yellow>{kit}</yellow> kit to <yellow>{player}</yellow>!</green>"
+  received-from: 
+    - ""
+    - "<gradient:#FFD700:#FFA500>🎁 You received the <bold>{kit}</bold> kit from <bold>{sender}</bold>!</gradient>"
+    - ""
+  
+  preview-header: 
+    - ""
+    - "<gradient:#9370DB:#8A2BE2>╔══════════════════════════════════════╗</gradient>"
+    - "<gradient:#9370DB:#8A2BE2>║</gradient>     <gradient:#FFD700:#FFA500><bold>✦ KIT PREVIEW: {kit} ✦</bold></gradient>     <gradient:#9370DB:#8A2BE2>║</gradient>"
+    - "<gradient:#9370DB:#8A2BE2>╚══════════════════════════════════════╝</gradient>"
+  
+  preview-footer: 
+    - "<gradient:#9370DB:#8A2BE2>╚══════════════════════════════════════╝</gradient>"
+    - "<gray>Use <yellow>/kit {kit_id}</yellow> to claim this kit!</gray>"
+    - ""
+  
+  list-header: 
+    - ""
+    - "<gradient:#FF69B4:#FF1493>╔══════════════════════════════════════════════════════════════╗</gradient>"
+    - "<gradient:#FF69B4:#FF1493>║</gradient>                    <gradient:#FFD700:#FFA500><bold>✦ AVAILABLE KITS ✦</bold></gradient>                    <gradient:#FF69B4:#FF1493>║</gradient>"
+    - "<gradient:#FF69B4:#FF1493>╠══════════════════════════════════════════════════════════════╣</gradient>"
+  
+  list-item: "<gradient:#FF69B4:#FF1493>║</gradient> <gradient:#00FF7F:#32CD32>✦ {kit}</gradient> <gray>- {description}</gray>"
+  list-cooldown: " <red>(Cooldown: {time})</red>"
+  list-cost: " <green>(Cost: ${cost})</green>"
+  list-permission: " <yellow>(VIP)</yellow>"
+  
+  list-footer: 
+    - "<gradient:#FF69B4:#FF1493>╚══════════════════════════════════════════════════════════════╝</gradient>"
+    - "<gray>💡 Tip: Click on a kit in the GUI for instant preview!</gray>"
+    - ""
+  
+  no-kits-available: 
+    - "<red>⚠ No kits are currently available for you!</red>"
+    - "<gray>Contact an administrator or check back later.</gray>"
+  
+  random-received: 
+    - ""
+    - "<gradient:#FF6347:#FFD700>🎲 Random Kit Surprise!</gradient>"
+    - "<gradient:#00FF7F:#32CD32>You received: <bold>{kit}</bold>!</gradient>"
+    - ""
 
-# Admin Messages
+# Admin Messages with Professional Styling
 admin:
-  kit-created: "&aKit '{kit}' created successfully!"
-  kit-deleted: "&aKit '{kit}' deleted successfully!"
-  kit-exists: "&cKit '{kit}' already exists!"
-  kit-not-exists: "&cKit '{kit}' does not exist!"
-  editing-kit: "&aYou are now editing kit '{kit}'. Use the GUI to make changes."
-  editor-opened: "&aKit editor opened for '{kit}'!"
+  kit-created: 
+    - "<green>✓ Kit '<yellow>{kit}</yellow>' created successfully!</green>"
+    - "<gray>Use <yellow>/uk edit {kit}</yellow> to customize it.</gray>"
+  
+  kit-deleted: 
+    - "<green>✓ Kit '<yellow>{kit}</yellow>' has been permanently deleted!</green>"
+    - "<gray>This action cannot be undone.</gray>"
+  
+  kit-exists: "<red>⚠ Kit '<yellow>{kit}</yellow>' already exists! Use <yellow>/uk edit {kit}</yellow> to modify it.</red>"
+  kit-not-exists: "<red>⚠ Kit '<yellow>{kit}</yellow>' does not exist! Use <yellow>/uk create {kit}</yellow> to create it.</red>"
+  
+  editing-kit: 
+    - "<blue>🔧 Now editing kit '<yellow>{kit}</yellow>'</blue>"
+    - "<gray>Use the advanced GUI editor to make changes.</gray>"
+  
+  editor-opened: "<green>✓ Advanced kit editor opened for '<yellow>{kit}</yellow>'!</green>"
+  
+  import-success: "<green>✓ Successfully imported <yellow>{count}</yellow> kits from <yellow>{source}</yellow>!</green>"
+  export-success: "<green>✓ Kit '<yellow>{kit}</yellow>' exported successfully to <yellow>{file}</yellow>!</green>"
 
-# GUI Messages
+# GUI Messages with Stunning Interface
 gui:
-  main-title: "&6&lUniqueKits &8- &7Kit Selection"
-  editor-title: "&6&lKit Editor &8- &7{kit}"
-  preview-title: "&6&lKit Preview &8- &7{kit}"
-  settings-title: "&6&lKit Settings &8- &7{kit}"
-  confirm-title: "&4&lConfirm Action"
+  main-title: "<gradient:#FFD700:#FFA500>✦ UniqueKits ✦</gradient> <dark_gray>Kit Selection</dark_gray>"
+  editor-title: "<gradient:#FF6347:#FFD700>✦ Kit Editor ✦</gradient> <dark_gray>{kit}</dark_gray>"
+  preview-title: "<gradient:#9370DB:#8A2BE2>✦ Kit Preview ✦</gradient> <dark_gray>{kit}</dark_gray>"
+  settings-title: "<gradient:#00CED1:#20B2AA>✦ Kit Settings ✦</gradient> <dark_gray>{kit}</dark_gray>"
+  confirm-title: "<gradient:#DC143C:#B22222>✦ Confirm Action ✦</gradient>"
+  storage-title: "<gradient:#DAA520:#B8860B>✦ Virtual Storage ✦</gradient>"
   
   buttons:
-    previous-page: "&a&lPrevious Page"
-    next-page: "&a&lNext Page"
-    close: "&c&lClose"
-    back: "&a&lBack"
-    save: "&a&lSave"
-    cancel: "&c&lCancel"
-    confirm: "&a&lConfirm"
-    claim: "&a&lClaim Kit"
-    preview: "&b&lPreview"
-    edit: "&e&lEdit"
-    delete: "&c&lDelete"
+    previous-page: 
+      name: "<gradient:#32CD32:#228B22>⬅ Previous Page</gradient>"
+      lore:
+        - "<gray>Click to go to the previous page</gray>"
+        - ""
+        - "<yellow>Current Page: {current}</yellow>"
+    
+    next-page:
+      name: "<gradient:#32CD32:#228B22>Next Page ➡</gradient>"
+      lore:
+        - "<gray>Click to go to the next page</gray>"
+        - ""
+        - "<yellow>Current Page: {current}</yellow>"
+    
+    close:
+      name: "<gradient:#DC143C:#B22222>✖ Close Menu</gradient>"
+      lore:
+        - "<gray>Click to close this interface</gray>"
+    
+    back:
+      name: "<gradient:#4169E1:#1E90FF>⬅ Go Back</gradient>"
+      lore:
+        - "<gray>Return to the previous menu</gray>"
+    
+    save:
+      name: "<gradient:#00FF00:#32CD32>✓ Save Changes</gradient>"
+      lore:
+        - "<gray>Click to save all modifications</gray>"
+        - ""
+        - "<green>All changes will be permanent!</green>"
+    
+    cancel:
+      name: "<gradient:#FF4500:#DC143C>✖ Cancel</gradient>"
+      lore:
+        - "<gray>Discard changes and exit</gray>"
+        - ""
+        - "<red>Changes will be lost!</red>"
+    
+    confirm:
+      name: "<gradient:#00FF00:#32CD32>✓ Confirm Action</gradient>"
+      lore:
+        - "<gray>Click to proceed with this action</gray>"
+    
+    claim:
+      name: "<gradient:#FFD700:#FFA500>⚡ Claim Kit</gradient>"
+      lore:
+        - "<gray>Click to claim this amazing kit!</gray>"
+        - ""
+        - "<yellow>Cooldown: <white>{cooldown}</white></yellow>"
+        - "<yellow>Cost: <white>{cost}</white></yellow>"
+        - ""
+        - "<green>✓ Click to claim!</green>"
+    
+    preview:
+      name: "<gradient:#9370DB:#8A2BE2>👁 Preview Kit</gradient>"
+      lore:
+        - "<gray>Click to preview kit contents</gray>"
+        - ""
+        - "<blue>See what's inside before claiming!</blue>"
+    
+    edit:
+      name: "<gradient:#FF6347:#FFD700>🔧 Edit Kit</gradient>"
+      lore:
+        - "<gray>Open the advanced kit editor</gray>"
+        - ""
+        - "<yellow>Drag & drop items to customize!</yellow>"
+    
+    delete:
+      name: "<gradient:#DC143C:#8B0000>🗑 Delete Kit</gradient>"
+      lore:
+        - "<gray>Permanently delete this kit</gray>"
+        - ""
+        - "<red>⚠ This action cannot be undone!</red>"
+    
+    random:
+      name: "<gradient:#FF69B4:#FF1493>🎲 Random Kit</gradient>"
+      lore:
+        - "<gray>Get a surprise kit!</gray>"
+        - ""
+        - "<rainbow>Feeling lucky? Try your chance!</rainbow>"
   
   lore:
-    kit-cooldown: "&cCooldown: &f{time}"
-    kit-cost: "&eCost: &f${cost}"
-    kit-permission: "&7Permission: &f{permission}"
-    kit-description: "&7{description}"
-    kit-available: "&a&lClick to claim!"
-    kit-unavailable: "&c&lNot available!"
-    page-info: "&7Page {current} of {total}"
-    click-to-claim: "&e&lLeft-click to claim"
-    click-to-preview: "&b&lRight-click to preview"
+    kit-cooldown: "<red>⏰ Cooldown: <white>{time}</white></red>"
+    kit-cost: "<yellow>💰 Cost: <white>${cost}</white></yellow>"
+    kit-permission: "<blue>🔒 Permission: <white>{permission}</white></blue>"
+    kit-description: "<gray>{description}</gray>"
+    kit-available: "<green>✓ Available - Click to claim!</green>"
+    kit-unavailable: "<red>✗ Not available</red>"
+    kit-on-cooldown: "<red>⏰ On cooldown for {time}</red>"
+    page-info: "<gray>Page <yellow>{current}</yellow> of <yellow>{total}</yellow></gray>"
+    click-to-claim: "<green>⚡ Left-click to claim instantly!</green>"
+    click-to-preview: "<blue>👁 Right-click to preview contents!</blue>"
+    drag-drop: "<yellow>💡 Drag & drop items to customize!</yellow>"
 
-# Error Messages
+# Error Messages with Clear Formatting
 errors:
-  inventory-full: "&cYour inventory is full!"
-  kit-error: "&cAn error occurred while giving you the kit!"
-  command-error: "&cAn error occurred while executing the command!"
-  save-error: "&cFailed to save kit data!"
-  load-error: "&cFailed to load kit data!"
-  permission-error: "&cPermission system error!"
-  economy-error: "&cEconomy system error!"
+  inventory-full: "<red>⚠ Your inventory is completely full! Please make some space.</red>"
+  kit-error: "<red>⚠ An unexpected error occurred while giving you the kit! Please try again.</red>"
+  command-error: "<red>⚠ Command execution failed! Please contact an administrator.</red>"
+  save-error: "<red>⚠ Failed to save kit data! Check file permissions.</red>"
+  load-error: "<red>⚠ Failed to load kit data! Configuration may be corrupted.</red>"
+  permission-error: "<red>⚠ Permission system error! Contact an administrator.</red>"
+  economy-error: "<red>⚠ Economy system error! Vault integration failed.</red>"
+  database-error: "<red>⚠ Database connection error! Data may not be saved.</red>"
 
-# Success Messages
+# Success Messages with Celebration
 success:
-  kit-saved: "&aKit saved successfully!"
-  settings-updated: "&aSettings updated successfully!"
-  data-reloaded: "&aData reloaded successfully!"
+  kit-saved: 
+    - "<green>✓ Kit saved successfully!</green>"
+    - "<gray>All changes have been applied.</gray>"
+  
+  settings-updated: 
+    - "<green>✓ Settings updated successfully!</green>"
+    - "<gray>Changes are now active.</gray>"
+  
+  data-reloaded: 
+    - "<green>✓ All data reloaded successfully!</green>"
+    - "<gray>Plugin is running with latest configuration.</gray>"
 
-# Time Formats
+# Time Formats with Beautiful Styling
 time:
-  days: "{days}d {hours}h {minutes}m"
-  hours: "{hours}h {minutes}m {seconds}s"
-  minutes: "{minutes}m {seconds}s"
-  seconds: "{seconds}s"
+  days: "<yellow>{days}</yellow><gray>d</gray> <yellow>{hours}</yellow><gray>h</gray> <yellow>{minutes}</yellow><gray>m</gray>"
+  hours: "<yellow>{hours}</yellow><gray>h</gray> <yellow>{minutes}</yellow><gray>m</gray> <yellow>{seconds}</yellow><gray>s</gray>"
+  minutes: "<yellow>{minutes}</yellow><gray>m</gray> <yellow>{seconds}</yellow><gray>s</gray>"
+  seconds: "<yellow>{seconds}</yellow><gray>s</gray>"
   
   day: "day"
   days: "days"
@@ -130,40 +290,97 @@ time:
   second: "second"
   seconds: "seconds"
 
-# Placeholders
+# Placeholders with Descriptions
 placeholders:
-  total-kits: "Total Kits"
-  available-kits: "Available Kits"
-  used-kits: "Used Kits"
-  player-kits: "Player Kits"
-  cooldown-remaining: "Cooldown Remaining"
+  total-kits: "Total number of kits available"
+  available-kits: "Kits available to the player"
+  used-kits: "Total kits used by player"
+  player-kits: "Player's personal kits"
+  cooldown-remaining: "Time remaining on cooldown"
+  most-used-kit: "Player's most frequently used kit"
+  kit-usage-count: "Number of times kit was used"
 
-# Welcome Messages
+# Welcome Messages with Grand Entrance
 welcome:
-  first-join: "&aWelcome to the server! You have received your starter kit!"
-  title: "&6&lWelcome!"
-  subtitle: "&eEnjoy your starter kit!"
+  first-join: 
+    - ""
+    - "<gradient:#FFD700:#FFA500>🌟 Welcome to the server! 🌟</gradient>"
+    - "<gray>You have received your <green>Starter Kit</green>!</gray>"
+    - "<gray>Use <yellow>/kit</yellow> to explore more amazing kits!</gray>"
+    - ""
+  
+  title: "<gradient:#FFD700:#FFA500>🌟 Welcome! 🌟</gradient>"
+  subtitle: "<gray>Enjoy your <green>Starter Kit</green>!</gray>"
 
-# Cooldown Messages
+# Cooldown Messages with Visual Appeal
 cooldown:
-  format: "&c{time}"
-  expired: "&aYour cooldown for kit '{kit}' has expired!"
+  format: "<gradient:#FF6B6B:#FF8E53>{time}</gradient>"
+  expired: 
+    - "<green>⏰ Your cooldown for kit '<yellow>{kit}</yellow>' has expired!</green>"
+    - "<gray>You can now claim this kit again.</gray>"
+  
+  list-header:
+    - ""
+    - "<gradient:#FF69B4:#FF1493>╔══════════════════════════════════════════════════════════════╗</gradient>"
+    - "<gradient:#FF69B4:#FF1493>║</gradient>                    <gradient:#FFD700:#FFA500><bold>✦ YOUR COOLDOWNS ✦</bold></gradient>                   <gradient:#FF69B4:#FF1493>║</gradient>"
+    - "<gradient:#FF69B4:#FF1493>╠══════════════════════════════════════════════════════════════╣</gradient>"
+  
+  list-item: "<gradient:#FF69B4:#FF1493>║</gradient> <yellow>{kit}</yellow> <gray>- Expires in:</gray> <gradient:#FF6B6B:#FF8E53>{time}</gradient>"
+  list-footer:
+    - "<gradient:#FF69B4:#FF1493>╚══════════════════════════════════════════════════════════════╝</gradient>"
+    - ""
 
 # Requirements Messages
 requirements:
-  level: "&cYou need to be level {level} to use this kit!"
-  money: "&cYou need ${amount} to use this kit!"
-  permission: "&cYou need the permission '{permission}' to use this kit!"
-  achievement: "&cYou need the achievement '{achievement}' to use this kit!"
+  level: "<red>📊 You need to be level <yellow>{level}</yellow> to use this kit! Current: <red>{current}</red></red>"
+  money: "<red>💰 You need <green>${amount}</green> to use this kit! Current: <red>${current}</red></red>"
+  permission: "<red>🔒 You need the permission '<yellow>{permission}</yellow>' to use this kit!</red>"
+  achievement: "<red>🏆 You need the achievement '<yellow>{achievement}</yellow>' to use this kit!</red>"
+  playtime: "<red>⏰ You need <yellow>{time}</yellow> of playtime to use this kit!</red>"
 
 # Update Messages
 update:
-  available: "&aA new version of UniqueKits is available: {version}"
-  current: "&aYou are running the latest version of UniqueKits!"
-  check-failed: "&cFailed to check for updates!"
+  available: 
+    - "<green>🔔 A new version of UniqueKits is available: <yellow>{version}</yellow></green>"
+    - "<gray>Download it from: <blue>{url}</blue></gray>"
+  
+  current: "<green>✓ You are running the latest version of UniqueKits!</green>"
+  check-failed: "<red>⚠ Failed to check for updates! Check your internet connection.</red>"
 
-# Debug Messages
+# Statistics Messages
+stats:
+  header:
+    - ""
+    - "<gradient:#00FFFF:#0080FF>╔══════════════════════════════════════════════════════════════╗</gradient>"
+    - "<gradient:#00FFFF:#0080FF>║</gradient>                 <gradient:#FFD700:#FFA500><bold>✦ KIT STATISTICS ✦</bold></gradient>                  <gradient:#00FFFF:#0080FF>║</gradient>"
+    - "<gradient:#00FFFF:#0080FF>╠══════════════════════════════════════════════════════════════╣</gradient>"
+  
+  total-used: "<gradient:#00FFFF:#0080FF>║</gradient> <gray>Total Kits Used:</gray> <yellow>{count}</yellow>"
+  most-used: "<gradient:#00FFFF:#0080FF>║</gradient> <gray>Most Used Kit:</gray> <green>{kit}</green> <gray>({count} times)</gray>"
+  active-cooldowns: "<gradient:#00FFFF:#0080FF>║</gradient> <gray>Active Cooldowns:</gray> <red>{count}</red>"
+  first-join: "<gradient:#00FFFF:#0080FF>║</gradient> <gray>First Join:</gray> <blue>{date}</blue>"
+  
+  footer:
+    - "<gradient:#00FFFF:#0080FF>╚══════════════════════════════════════════════════════════════╝</gradient>"
+    - ""
+
+# Import/Export Messages
+import:
+  essentials-found: "<green>✓ EssentialsX detected! Found <yellow>{count}</yellow> kits to import.</green>"
+  essentials-importing: "<blue>🔄 Importing kits from EssentialsX...</blue>"
+  essentials-success: "<green>✓ Successfully imported <yellow>{count}</yellow> kits from EssentialsX!</green>"
+  essentials-failed: "<red>⚠ Failed to import from EssentialsX: {error}</red>"
+  
+  no-source: "<red>⚠ No compatible kit plugins found to import from!</red>"
+  
+export:
+  success: "<green>✓ Kit '<yellow>{kit}</yellow>' exported to <blue>{file}</blue>!</green>"
+  failed: "<red>⚠ Failed to export kit: {error}</red>"
+
+# Debug Messages (only shown when debug is enabled)
 debug:
-  kit-given: "&7[DEBUG] Kit '{kit}' given to '{player}'"
-  cooldown-set: "&7[DEBUG] Cooldown set for '{player}' on kit '{kit}': {time}ms"
-  permission-check: "&7[DEBUG] Permission check for '{player}' on '{permission}': {result}"
+  kit-given: "<gray>[DEBUG] Kit '{kit}' given to '{player}'</gray>"
+  cooldown-set: "<gray>[DEBUG] Cooldown set for '{player}' on kit '{kit}': {time}ms</gray>"
+  permission-check: "<gray>[DEBUG] Permission check for '{player}' on '{permission}': {result}</gray>"
+  hook-loaded: "<gray>[DEBUG] Hook '{hook}' loaded successfully</gray>"
+  data-saved: "<gray>[DEBUG] Player data saved for '{player}'</gray>"

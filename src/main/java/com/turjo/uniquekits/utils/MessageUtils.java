@@ -4,10 +4,12 @@ import com.turjo.uniquekits.UniqueKits;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.kyori.adventure.title.Title;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,24 +18,105 @@ import java.util.stream.Collectors;
 public class MessageUtils {
     
     private static final Pattern HEX_PATTERN = Pattern.compile("&#([A-Fa-f0-9]{6})");
+    private static final Pattern GRADIENT_PATTERN = Pattern.compile("<gradient:([^>]+)>([^<]+)</gradient>");
     private static final MiniMessage MINI_MESSAGE = MiniMessage.miniMessage();
     private static final LegacyComponentSerializer LEGACY_SERIALIZER = LegacyComponentSerializer.legacyAmpersand();
     
     /**
-     * Colorize a string with support for legacy codes, hex codes, and MiniMessage format
+     * Colorize a string with support for legacy codes, hex codes, gradients, and MiniMessage format
      */
     public static String colorize(String message) {
         if (message == null || message.isEmpty()) {
             return message;
         }
         
-        // Handle hex colors first (&#RRGGBB format)
+        // Handle MiniMessage format first
+        if (message.contains("<") && message.contains(">")) {
+            try {
+                // Handle gradients
+                message = handleGradients(message);
+                
+                // Handle other MiniMessage tags
+                Component component = MINI_MESSAGE.deserialize(message);
+                return LEGACY_SERIALIZER.serialize(component);
+            } catch (Exception e) {
+                // Fall back to legacy processing
+            }
+        }
+        
+        // Handle hex colors (&#RRGGBB format)
         message = translateHexColorCodes(message);
         
         // Handle legacy color codes
         message = ChatColor.translateAlternateColorCodes('&', message);
         
         return message;
+    }
+    
+    private static String handleGradients(String message) {
+        Matcher matcher = GRADIENT_PATTERN.matcher(message);
+        StringBuffer result = new StringBuffer();
+        
+        while (matcher.find()) {
+            String colors = matcher.group(1);
+            String text = matcher.group(2);
+            String[] colorArray = colors.split(":");
+            
+            if (colorArray.length >= 2) {
+                String gradient = createGradient(text, colorArray[0], colorArray[1]);
+                matcher.appendReplacement(result, gradient);
+            } else {
+                matcher.appendReplacement(result, text);
+            }
+        }
+        matcher.appendTail(result);
+        
+        return result.toString();
+    }
+    
+    private static String createGradient(String text, String startColor, String endColor) {
+        // Simple gradient implementation
+        StringBuilder result = new StringBuilder();
+        int length = text.length();
+        
+        for (int i = 0; i < length; i++) {
+            char c = text.charAt(i);
+            if (c == ' ') {
+                result.append(c);
+                continue;
+            }
+            
+            // Calculate color interpolation
+            float ratio = (float) i / (length - 1);
+            String color = interpolateColor(startColor, endColor, ratio);
+            result.append("&#").append(color).append(c);
+        }
+        
+        return result.toString();
+    }
+    
+    private static String interpolateColor(String start, String end, float ratio) {
+        // Remove # if present
+        start = start.replace("#", "");
+        end = end.replace("#", "");
+        
+        try {
+            int startR = Integer.parseInt(start.substring(0, 2), 16);
+            int startG = Integer.parseInt(start.substring(2, 4), 16);
+            int startB = Integer.parseInt(start.substring(4, 6), 16);
+            
+            int endR = Integer.parseInt(end.substring(0, 2), 16);
+            int endG = Integer.parseInt(end.substring(2, 4), 16);
+            int endB = Integer.parseInt(end.substring(4, 6), 16);
+            
+            int r = (int) (startR + (endR - startR) * ratio);
+            int g = (int) (startG + (endG - startG) * ratio);
+            int b = (int) (startB + (endB - startB) * ratio);
+            
+            return String.format("%02x%02x%02x", r, g, b);
+        } catch (Exception e) {
+            return start;
+        }
     }
     
     /**
@@ -50,7 +133,7 @@ public class MessageUtils {
     }
     
     /**
-     * Send a message to a command sender
+     * Send a message to a command sender with full color support
      */
     public static void sendMessage(CommandSender sender, String message) {
         if (message == null || message.isEmpty()) {
@@ -71,7 +154,7 @@ public class MessageUtils {
                 }
             }
             
-            // Use legacy format
+            // Use legacy format with color support
             Component component = LEGACY_SERIALIZER.deserialize(colorize(message));
             UniqueKits.getInstance().getAdventure().player(player).sendMessage(component);
         } else {
@@ -94,7 +177,7 @@ public class MessageUtils {
     }
     
     /**
-     * Send a title to a player
+     * Send a title to a player with color support
      */
     public static void sendTitle(Player player, String title, String subtitle, int fadeIn, int stay, int fadeOut) {
         if (title == null) title = "";
@@ -104,13 +187,13 @@ public class MessageUtils {
         Component subtitleComponent = LEGACY_SERIALIZER.deserialize(colorize(subtitle));
         
         UniqueKits.getInstance().getAdventure().player(player).showTitle(
-            net.kyori.adventure.title.Title.title(
+            Title.title(
                 titleComponent,
                 subtitleComponent,
-                net.kyori.adventure.title.Title.Times.times(
-                    java.time.Duration.ofMillis(fadeIn * 50),
-                    java.time.Duration.ofMillis(stay * 50),
-                    java.time.Duration.ofMillis(fadeOut * 50)
+                Title.Times.times(
+                    Duration.ofMillis(fadeIn * 50),
+                    Duration.ofMillis(stay * 50),
+                    Duration.ofMillis(fadeOut * 50)
                 )
             )
         );
@@ -158,46 +241,6 @@ public class MessageUtils {
     }
     
     /**
-     * Check if a string contains MiniMessage formatting
-     */
-    public static boolean isMiniMessage(String message) {
-        return message != null && message.contains("<") && message.contains(">");
-    }
-    
-    /**
-     * Convert legacy format to MiniMessage format
-     */
-    public static String legacyToMiniMessage(String legacy) {
-        if (legacy == null) {
-            return null;
-        }
-        
-        // This is a basic conversion - you might want to implement a more sophisticated converter
-        return legacy
-            .replace("&0", "<black>")
-            .replace("&1", "<dark_blue>")
-            .replace("&2", "<dark_green>")
-            .replace("&3", "<dark_aqua>")
-            .replace("&4", "<dark_red>")
-            .replace("&5", "<dark_purple>")
-            .replace("&6", "<gold>")
-            .replace("&7", "<gray>")
-            .replace("&8", "<dark_gray>")
-            .replace("&9", "<blue>")
-            .replace("&a", "<green>")
-            .replace("&b", "<aqua>")
-            .replace("&c", "<red>")
-            .replace("&d", "<light_purple>")
-            .replace("&e", "<yellow>")
-            .replace("&f", "<white>")
-            .replace("&l", "<bold>")
-            .replace("&m", "<strikethrough>")
-            .replace("&n", "<underlined>")
-            .replace("&o", "<italic>")
-            .replace("&r", "<reset>");
-    }
-    
-    /**
      * Format a long duration into a readable string
      */
     public static String formatDuration(long millis) {
@@ -213,22 +256,22 @@ public class MessageUtils {
         StringBuilder result = new StringBuilder();
         
         if (days > 0) {
-            result.append(days).append("d ");
+            result.append("&e").append(days).append("&6d ");
             hours %= 24;
         }
         if (hours > 0) {
-            result.append(hours).append("h ");
+            result.append("&e").append(hours).append("&6h ");
             minutes %= 60;
         }
         if (minutes > 0) {
-            result.append(minutes).append("m ");
+            result.append("&e").append(minutes).append("&6m ");
             seconds %= 60;
         }
         if (seconds > 0 || result.length() == 0) {
-            result.append(seconds).append("s");
+            result.append("&e").append(seconds).append("&6s");
         }
         
-        return result.toString().trim();
+        return colorize(result.toString().trim());
     }
     
     /**
@@ -245,5 +288,49 @@ public class MessageUtils {
         }
         
         return result;
+    }
+    
+    /**
+     * Create a centered message
+     */
+    public static String centerMessage(String message) {
+        if (message == null) return "";
+        
+        int maxWidth = 80;
+        int messageLength = ChatColor.stripColor(message).length();
+        
+        if (messageLength >= maxWidth) {
+            return message;
+        }
+        
+        int spaces = (maxWidth - messageLength) / 2;
+        StringBuilder centered = new StringBuilder();
+        
+        for (int i = 0; i < spaces; i++) {
+            centered.append(" ");
+        }
+        
+        centered.append(message);
+        return centered.toString();
+    }
+    
+    /**
+     * Create a progress bar
+     */
+    public static String createProgressBar(double percentage, int length, String completeColor, String incompleteColor) {
+        StringBuilder bar = new StringBuilder();
+        int completed = (int) (percentage * length);
+        
+        bar.append(completeColor);
+        for (int i = 0; i < completed; i++) {
+            bar.append("█");
+        }
+        
+        bar.append(incompleteColor);
+        for (int i = completed; i < length; i++) {
+            bar.append("█");
+        }
+        
+        return colorize(bar.toString());
     }
 }
