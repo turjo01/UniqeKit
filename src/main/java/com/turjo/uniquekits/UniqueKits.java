@@ -83,9 +83,9 @@ public class UniqueKits extends JavaPlugin {
         this.configManager = new ConfigManager(this);
         this.languageManager = new LanguageManager(this);
         this.playerDataManager = new PlayerDataManager(this);
+        this.hookManager = new HookManager(this);
         this.kitManager = new KitManager(this);
         this.guiManager = new GuiManager(this);
-        this.hookManager = new HookManager(this);
         this.placeholderManager = new PlaceholderManager(this);
         
         getLogger().info("§a[UniqueKits] All managers initialized successfully!");
