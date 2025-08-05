@@ -144,7 +144,8 @@ public class EssentialsXHook {
             
             // Convert items
             List<ItemStack> items = new ArrayList<>();
-            if (parseEssentialsKitItems(essentialsKit, items)) {
+            try {
+                parseEssentialsKitItems(essentialsKit, items);
             } catch (Exception e) {
                 plugin.getLogger().warning("§c[EssentialsXHook] Failed to convert items for kit " + kitName + ": " + e.getMessage());
                 // Continue with empty items list
