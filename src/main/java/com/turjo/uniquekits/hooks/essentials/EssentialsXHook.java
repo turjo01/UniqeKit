@@ -98,6 +98,8 @@ public class EssentialsXHook {
     private int performImport(Map<String, Object> essentialsKits) {
         int imported = 0;
         
+        plugin.getLogger().info("§e[EssentialsXHook] Found " + essentialsKits.size() + " EssentialsX kits to import...");
+        
         for (Map.Entry<String, Object> entry : essentialsKits.entrySet()) {
             String kitName = entry.getKey();
             Object essentialsKit = entry.getValue();
@@ -106,12 +108,15 @@ public class EssentialsXHook {
                 if (importSingleKit(kitName, essentialsKit)) {
                     imported++;
                     plugin.getLogger().info("§a[EssentialsXHook] ✓ Imported kit: " + kitName);
+                } else {
+                    plugin.getLogger().warning("§c[EssentialsXHook] ✗ Failed to import kit: " + kitName);
                 }
             } catch (Exception e) {
                 plugin.getLogger().warning("§c[EssentialsXHook] Error importing kit " + kitName + ": " + e.getMessage());
             }
         }
         
+        plugin.getLogger().info("§a[EssentialsXHook] Import complete! Successfully imported " + imported + " kits.");
         return imported;
     }
     
@@ -213,10 +218,14 @@ public class EssentialsXHook {
      * Get the number of available EssentialsX kits
      */
     public int getAvailableKitsCount() {
+        if (!initialized || kits == null) {
+            return 0;
+        }
+        
         try {
-            @SuppressWarnings("unchecked")
-            Map<String, Object> kits = (Map<String, Object>) getKitsMethod.invoke(essentialsSettings);
+            @SuppressWarnings("unchecked") 
             Map<String, Object> essentialsKits = (Map<String, Object>) kits;
+            return essentialsKits.size();
         } catch (Exception e) {
             return 0;
         }
@@ -226,10 +235,14 @@ public class EssentialsXHook {
      * Check if a specific kit exists in EssentialsX
      */
     public boolean hasKit(String kitName) {
+        if (!initialized || kits == null) {
+            return false;
+        }
+        
         try {
             @SuppressWarnings("unchecked")
             Map<String, Object> essentialsKits = (Map<String, Object>) kits;
-            return kits.containsKey(kitName.toLowerCase());
+            return essentialsKits.containsKey(kitName.toLowerCase());
         } catch (Exception e) {
             return false;
         }
@@ -239,10 +252,14 @@ public class EssentialsXHook {
      * Get all EssentialsX kit names
      */
     public List<String> getKitNames() {
+        if (!initialized || kits == null) {
+            return new ArrayList<>();
+        }
+        
         try {
             @SuppressWarnings("unchecked")
             Map<String, Object> essentialsKits = (Map<String, Object>) kits;
-            return new ArrayList<>(kits.keySet());
+            return new ArrayList<>(essentialsKits.keySet());
         } catch (Exception e) {
             return new ArrayList<>();
         }
