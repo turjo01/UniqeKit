@@ -29,8 +29,11 @@ public class KitManager {
     public KitManager(UniqueKits plugin) {
         this.plugin = plugin;
         loadKits();
-        checkEssentialsStarterKit();
-        createExampleKit();
+        // Delay EssentialsX check until after all managers are initialized
+        Bukkit.getScheduler().runTask(plugin, () -> {
+            checkEssentialsStarterKit();
+            createExampleKit();
+        });
     }
     
     private void loadKits() {
