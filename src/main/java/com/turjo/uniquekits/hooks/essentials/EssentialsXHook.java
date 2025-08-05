@@ -1,6 +1,7 @@
 package com.turjo.uniquekits.hooks.essentials;
 
 import com.turjo.uniquekits.UniqueKits;
+import com.turjo.uniquekits.utils.MessageUtils;
 import com.turjo.uniquekits.kits.Kit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
@@ -8,6 +9,7 @@ import org.bukkit.Material;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.Map;
 import java.lang.reflect.Method;
 import java.lang.reflect.Field;
@@ -17,7 +19,8 @@ public class EssentialsXHook {
     private final UniqueKits plugin;
     private final Plugin essentials;
     private Object essentialsSettings;
-    private Method getKitsMethod;
+    private Object kits;
+    private boolean initialized = false;
     
     public EssentialsXHook(UniqueKits plugin) throws Exception {
         this.plugin = plugin;
@@ -27,13 +30,25 @@ public class EssentialsXHook {
             throw new Exception("Essentials plugin not found!");
         }
         
-        // Use reflection to access EssentialsX internals
+        initializeEssentialsAccess();
+        plugin.getLogger().info("§a[EssentialsXHook] Successfully hooked into EssentialsX v" + getEssentialsVersion());
+    }
+    
+    private void initializeEssentialsAccess() throws Exception {
         try {
-            Method getSettingsMethod = essentials.getClass().getMethod("getSettings");
+            // Try to get the settings object
+            Method getSettingsMethod = essentials.getClass().getDeclaredMethod("getSettings");
+            getSettingsMethod.setAccessible(true);
             this.essentialsSettings = getSettingsMethod.invoke(essentials);
-            this.getKitsMethod = essentialsSettings.getClass().getMethod("getKits");
+            
+            // Try to get kits
+            Method getKitsMethod = essentialsSettings.getClass().getDeclaredMethod("getKits");
+            getKitsMethod.setAccessible(true);
+            this.kits = getKitsMethod.invoke(essentialsSettings);
+            
+            this.initialized = true;
         } catch (Exception e) {
-            plugin.getLogger().warning("Could not access EssentialsX kit data via reflection: " + e.getMessage());
+            plugin.getLogger().warning("§c[EssentialsXHook] Could not access EssentialsX kit data: " + e.getMessage());
             throw new Exception("Failed to hook into EssentialsX: " + e.getMessage());
         }
         
@@ -44,16 +59,19 @@ public class EssentialsXHook {
      * Import all kits from EssentialsX
      */
     public int importAllKits() {
-        Map<String, Object> essentialsKits;
-        try {
-            @SuppressWarnings("unchecked")
-            Map<String, Object> kits = (Map<String, Object>) getKitsMethod.invoke(essentialsSettings);
-            essentialsKits = kits;
-        } catch (Exception e) {
-            plugin.getLogger().severe("Failed to get kits from EssentialsX: " + e.getMessage());
+        if (!initialized || kits == null) {
+            plugin.getLogger().severe("§c[EssentialsXHook] EssentialsX hook not properly initialized!");
             return 0;
         }
-        int imported = 0;
+        
+        try {
+            @SuppressWarnings("unchecked")
+            Map<String, Object> essentialsKits = (Map<String, Object>) kits;
+            return performImport(essentialsKits);
+        } catch (Exception e) {
+            plugin.getLogger().severe("§c[EssentialsXHook] Failed to get kits from EssentialsX: " + e.getMessage());
+            return 0;
+        }
         
         plugin.getLogger().info("§e[EssentialsXHook] Found " + essentialsKits.size() + " EssentialsX kits to import...");
         
@@ -77,6 +95,30 @@ public class EssentialsXHook {
         return imported;
     }
     
+    private int performImport(Map<String, Object> essentialsKits) {
+        int imported = 0;
+        
+        for (Map.Entry<String, Object> entry : essentialsKits.entrySet()) {
+            String kitName = entry.getKey();
+            Object essentialsKit = entry.getValue();
+            
+            try {
+                if (importSingleKit(kitName, essentialsKit)) {
+                    imported++;
+                    plugin.getLogger().info("§a[EssentialsXHook] ✓ Imported kit: " + kitName);
+                }
+            } catch (Exception e) {
+                plugin.getLogger().warning("§c[EssentialsXHook] Error importing kit " + kitName + ": " + e.getMessage());
+            }
+        }
+        
+        return imported;
+    }
+    
+    private boolean importSingleKit(String kitName, Object essentialsKit) {
+        return importKit(kitName, essentialsKit);
+    }
+    
     /**
      * Import a specific kit from EssentialsX
      */
@@ -89,7 +131,7 @@ public class EssentialsXHook {
             }
             
             // Create new UniqueKits kit
-            Kit uniqueKit = new Kit(kitName);
+            Kit uniqueKit = createUniqueKit(kitName);
             
             // Set basic properties
             uniqueKit.setName("§6§l" + kitName.substring(0, 1).toUpperCase() + kitName.substring(1) + " Kit");
@@ -97,12 +139,7 @@ public class EssentialsXHook {
             
             // Convert items
             List<ItemStack> items = new ArrayList<>();
-            try {
-                // Add some default items since EssentialsX item parsing is complex
-                items.add(new ItemStack(Material.STONE_SWORD, 1));
-                items.add(new ItemStack(Material.BREAD, 16));
-                items.add(new ItemStack(Material.OAK_LOG, 32));
-                uniqueKit.setItems(items);
+            if (parseEssentialsKitItems(essentialsKit, items)) {
             } catch (Exception e) {
                 plugin.getLogger().warning("§c[EssentialsXHook] Failed to convert items for kit " + kitName + ": " + e.getMessage());
                 // Continue with empty items list
@@ -110,7 +147,7 @@ public class EssentialsXHook {
             
             // Set cooldown (convert from seconds to milliseconds)
             try {
-                // Default cooldown for imported kits
+                long cooldown = parseEssentialsKitCooldown(essentialsKit);
                 uniqueKit.setCooldown(1800000); // 30 minutes
             } catch (Exception e) {
                 plugin.getLogger().warning("Failed to get cooldown for kit " + kitName + ", using default");
@@ -143,6 +180,35 @@ public class EssentialsXHook {
         }
     }
     
+    private Kit createUniqueKit(String kitName) {
+        return new Kit(kitName);
+    }
+    
+    private boolean parseEssentialsKitItems(Object essentialsKit, List<ItemStack> items) {
+        try {
+            // This is a simplified implementation
+            // In reality, you'd need to parse EssentialsX's kit format
+            // For now, add some default items
+            items.add(new ItemStack(Material.STONE_SWORD, 1));
+            items.add(new ItemStack(Material.BREAD, 16));
+            items.add(new ItemStack(Material.OAK_LOG, 32));
+            return true;
+        } catch (Exception e) {
+            plugin.getLogger().warning("§c[EssentialsXHook] Failed to parse kit items: " + e.getMessage());
+            return false;
+        }
+    }
+    
+    private long parseEssentialsKitCooldown(Object essentialsKit) {
+        try {
+            // Try to extract cooldown from EssentialsX kit
+            // This is a placeholder - actual implementation would parse the kit data
+            return 1800000; // 30 minutes default
+        } catch (Exception e) {
+            return 0; // No cooldown if parsing fails
+        }
+    }
+    
     /**
      * Get the number of available EssentialsX kits
      */
@@ -150,7 +216,7 @@ public class EssentialsXHook {
         try {
             @SuppressWarnings("unchecked")
             Map<String, Object> kits = (Map<String, Object>) getKitsMethod.invoke(essentialsSettings);
-            return kits.size();
+            Map<String, Object> essentialsKits = (Map<String, Object>) kits;
         } catch (Exception e) {
             return 0;
         }
@@ -162,7 +228,7 @@ public class EssentialsXHook {
     public boolean hasKit(String kitName) {
         try {
             @SuppressWarnings("unchecked")
-            Map<String, Object> kits = (Map<String, Object>) getKitsMethod.invoke(essentialsSettings);
+            Map<String, Object> essentialsKits = (Map<String, Object>) kits;
             return kits.containsKey(kitName.toLowerCase());
         } catch (Exception e) {
             return false;
@@ -175,7 +241,7 @@ public class EssentialsXHook {
     public List<String> getKitNames() {
         try {
             @SuppressWarnings("unchecked")
-            Map<String, Object> kits = (Map<String, Object>) getKitsMethod.invoke(essentialsSettings);
+            Map<String, Object> essentialsKits = (Map<String, Object>) kits;
             return new ArrayList<>(kits.keySet());
         } catch (Exception e) {
             return new ArrayList<>();

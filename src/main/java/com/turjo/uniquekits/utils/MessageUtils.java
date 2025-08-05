@@ -1,15 +1,10 @@
 package com.turjo.uniquekits.utils;
 
 import com.turjo.uniquekits.UniqueKits;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import net.kyori.adventure.title.Title;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,30 +13,13 @@ import java.util.stream.Collectors;
 public class MessageUtils {
     
     private static final Pattern HEX_PATTERN = Pattern.compile("&#([A-Fa-f0-9]{6})");
-    private static final Pattern GRADIENT_PATTERN = Pattern.compile("<gradient:([^>]+)>([^<]+)</gradient>");
-    private static final MiniMessage MINI_MESSAGE = MiniMessage.miniMessage();
-    private static final LegacyComponentSerializer LEGACY_SERIALIZER = LegacyComponentSerializer.legacyAmpersand();
     
     /**
-     * Colorize a string with support for legacy codes, hex codes, gradients, and MiniMessage format
+     * Colorize a string with support for legacy codes and hex codes
      */
     public static String colorize(String message) {
         if (message == null || message.isEmpty()) {
             return message;
-        }
-        
-        // Handle MiniMessage format first
-        if (message.contains("<") && message.contains(">")) {
-            try {
-                // Handle gradients
-                message = handleGradients(message);
-                
-                // Handle other MiniMessage tags
-                Component component = MINI_MESSAGE.deserialize(message);
-                return LEGACY_SERIALIZER.serialize(component);
-            } catch (Exception e) {
-                // Fall back to legacy processing
-            }
         }
         
         // Handle hex colors (&#RRGGBB format)
@@ -51,72 +29,6 @@ public class MessageUtils {
         message = ChatColor.translateAlternateColorCodes('&', message);
         
         return message;
-    }
-    
-    private static String handleGradients(String message) {
-        Matcher matcher = GRADIENT_PATTERN.matcher(message);
-        StringBuffer result = new StringBuffer();
-        
-        while (matcher.find()) {
-            String colors = matcher.group(1);
-            String text = matcher.group(2);
-            String[] colorArray = colors.split(":");
-            
-            if (colorArray.length >= 2) {
-                String gradient = createGradient(text, colorArray[0], colorArray[1]);
-                matcher.appendReplacement(result, gradient);
-            } else {
-                matcher.appendReplacement(result, text);
-            }
-        }
-        matcher.appendTail(result);
-        
-        return result.toString();
-    }
-    
-    private static String createGradient(String text, String startColor, String endColor) {
-        // Simple gradient implementation
-        StringBuilder result = new StringBuilder();
-        int length = text.length();
-        
-        for (int i = 0; i < length; i++) {
-            char c = text.charAt(i);
-            if (c == ' ') {
-                result.append(c);
-                continue;
-            }
-            
-            // Calculate color interpolation
-            float ratio = (float) i / (length - 1);
-            String color = interpolateColor(startColor, endColor, ratio);
-            result.append("&#").append(color).append(c);
-        }
-        
-        return result.toString();
-    }
-    
-    private static String interpolateColor(String start, String end, float ratio) {
-        // Remove # if present
-        start = start.replace("#", "");
-        end = end.replace("#", "");
-        
-        try {
-            int startR = Integer.parseInt(start.substring(0, 2), 16);
-            int startG = Integer.parseInt(start.substring(2, 4), 16);
-            int startB = Integer.parseInt(start.substring(4, 6), 16);
-            
-            int endR = Integer.parseInt(end.substring(0, 2), 16);
-            int endG = Integer.parseInt(end.substring(2, 4), 16);
-            int endB = Integer.parseInt(end.substring(4, 6), 16);
-            
-            int r = (int) (startR + (endR - startR) * ratio);
-            int g = (int) (startG + (endG - startG) * ratio);
-            int b = (int) (startB + (endB - startB) * ratio);
-            
-            return String.format("%02x%02x%02x", r, g, b);
-        } catch (Exception e) {
-            return start;
-        }
     }
     
     /**
@@ -140,27 +52,7 @@ public class MessageUtils {
             return;
         }
         
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
-            
-            // Try MiniMessage format first
-            if (message.contains("<") && message.contains(">")) {
-                try {
-                    Component component = MINI_MESSAGE.deserialize(message);
-                    UniqueKits.getInstance().getAdventure().player(player).sendMessage(component);
-                    return;
-                } catch (Exception e) {
-                    // Fall back to legacy format
-                }
-            }
-            
-            // Use legacy format with color support
-            Component component = LEGACY_SERIALIZER.deserialize(colorize(message));
-            UniqueKits.getInstance().getAdventure().player(player).sendMessage(component);
-        } else {
-            // For console, strip colors and send plain text
-            sender.sendMessage(ChatColor.stripColor(colorize(message)));
-        }
+        sender.sendMessage(colorize(message));
     }
     
     /**
@@ -183,20 +75,7 @@ public class MessageUtils {
         if (title == null) title = "";
         if (subtitle == null) subtitle = "";
         
-        Component titleComponent = LEGACY_SERIALIZER.deserialize(colorize(title));
-        Component subtitleComponent = LEGACY_SERIALIZER.deserialize(colorize(subtitle));
-        
-        UniqueKits.getInstance().getAdventure().player(player).showTitle(
-            Title.title(
-                titleComponent,
-                subtitleComponent,
-                Title.Times.times(
-                    Duration.ofMillis(fadeIn * 50),
-                    Duration.ofMillis(stay * 50),
-                    Duration.ofMillis(fadeOut * 50)
-                )
-            )
-        );
+        player.sendTitle(colorize(title), colorize(subtitle), fadeIn, stay, fadeOut);
     }
     
     /**
@@ -207,8 +86,14 @@ public class MessageUtils {
             return;
         }
         
-        Component component = LEGACY_SERIALIZER.deserialize(colorize(message));
-        UniqueKits.getInstance().getAdventure().player(player).sendActionBar(component);
+        // Use reflection for action bar since it's version dependent
+        try {
+            player.spigot().sendMessage(net.md_5.bungee.api.ChatMessageType.ACTION_BAR, 
+                net.md_5.bungee.api.chat.TextComponent.fromLegacyText(colorize(message)));
+        } catch (Exception e) {
+            // Fallback to regular message
+            sendMessage(player, message);
+        }
     }
     
     /**

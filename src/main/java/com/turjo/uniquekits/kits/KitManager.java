@@ -1,6 +1,7 @@
 package com.turjo.uniquekits.kits;
 
 import com.turjo.uniquekits.UniqueKits;
+import com.turjo.uniquekits.hooks.essentials.EssentialsXHook;
 import com.turjo.uniquekits.storage.PlayerData;
 import com.turjo.uniquekits.utils.MessageUtils;
 import org.bukkit.Bukkit;
@@ -20,6 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class KitManager {
     
     private final UniqueKits plugin;
+    private boolean essentialsStarterKitDetected = false;
     private final Map<String, Kit> kits = new ConcurrentHashMap<>();
     private FileConfiguration kitsConfig;
     private File kitsFile;
@@ -27,6 +29,7 @@ public class KitManager {
     public KitManager(UniqueKits plugin) {
         this.plugin = plugin;
         loadKits();
+        checkEssentialsStarterKit();
         createExampleKit();
     }
     
@@ -54,7 +57,24 @@ public class KitManager {
         plugin.getLogger().info("§a[KitManager] Loaded " + kits.size() + " kits successfully!");
     }
     
+    private void checkEssentialsStarterKit() {
+        if (plugin.getHookManager().isEssentialsXEnabled()) {
+            EssentialsXHook essentialsHook = plugin.getHookManager().getEssentialsXHook();
+            if (essentialsHook != null && essentialsHook.hasKit("starter")) {
+                essentialsStarterKitDetected = true;
+                plugin.getLogger().info("§e[KitManager] EssentialsX starter kit detected! UniqueKits starter kit will be disabled.");
+                MessageUtils.sendMessage(plugin.getServer().getConsoleSender(), 
+                    plugin.getLanguageManager().getMessage("import.essentials-starter-disabled"));
+            }
+        }
+    }
+    
     private void createExampleKit() {
+        // Don't create starter kit if EssentialsX has one
+        if (essentialsStarterKitDetected) {
+            return;
+        }
+        
         if (!kits.containsKey("starter")) {
             Kit starterKit = new Kit("starter");
             starterKit.setName("§a§lStarter Kit");
@@ -91,6 +111,7 @@ public class KitManager {
     
     public void reloadKits() {
         kits.clear();
+        checkEssentialsStarterKit();
         loadKits();
         plugin.getLogger().info("§a[KitManager] Kits reloaded successfully!");
     }
@@ -112,6 +133,18 @@ public class KitManager {
             plugin.getLogger().severe("§c[KitManager] Could not save kit " + kit.getId() + ": " + e.getMessage());
         }
     }
+    
+    public boolean saveKitItems(Kit kit) {
+        try {
+            saveKit(kit);
+            return true;
+        } catch (Exception e) {
+            plugin.getLogger().severe("§c[KitManager] Failed to save kit items for " + kit.getId() + ": " + e.getMessage());
+            return false;
+        }
+    }
+    
+    public boolean isEssentialsStarterKitDetected() { return essentialsStarterKitDetected; }
     
     public void deleteKit(String kitId) {
         kits.remove(kitId.toLowerCase());
@@ -224,6 +257,10 @@ public class KitManager {
     }
     
     private void giveItems(Player player, List<ItemStack> items) {
+        if (items == null || items.isEmpty()) {
+            return;
+        }
+        
         List<ItemStack> overflow = new ArrayList<>();
         
         for (ItemStack item : items) {
