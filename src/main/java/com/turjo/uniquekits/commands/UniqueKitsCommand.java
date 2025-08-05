@@ -133,20 +133,24 @@ public class UniqueKitsCommand implements CommandExecutor, TabCompleter {
         }
         
         // Send header
-        MessageUtils.sendMessages(sender, plugin.getLanguageManager().getMessage("commands.help.header"));
+        List<String> headerMessages = plugin.getLanguageManager().getMessageList("commands.help.header");
+        MessageUtils.sendMessages(sender, headerMessages);
         
         // Send player commands if applicable
         if (sender instanceof Player || sender.hasPermission("uniquekits.admin")) {
-            MessageUtils.sendMessages(sender, plugin.getLanguageManager().getMessage("commands.help.player-commands"));
+            List<String> playerCommands = plugin.getLanguageManager().getMessageList("commands.help.player-commands");
+            MessageUtils.sendMessages(sender, playerCommands);
         }
         
         // Send admin commands if has permission
         if (sender.hasPermission("uniquekits.admin")) {
-            MessageUtils.sendMessages(sender, plugin.getLanguageManager().getMessage("commands.help.admin-commands"));
+            List<String> adminCommands = plugin.getLanguageManager().getMessageList("commands.help.admin-commands");
+            MessageUtils.sendMessages(sender, adminCommands);
         }
         
         // Send footer
-        MessageUtils.sendMessages(sender, plugin.getLanguageManager().getMessage("commands.help.footer"));
+        List<String> footerMessages = plugin.getLanguageManager().getMessageList("commands.help.footer");
+        MessageUtils.sendMessages(sender, footerMessages);
     }
     
     private void listKits(CommandSender sender) {
@@ -185,7 +189,7 @@ public class UniqueKitsCommand implements CommandExecutor, TabCompleter {
         }
         
         plugin.getKitManager().createKit(kitId);
-        MessageUtils.sendMessages(sender, plugin.getLanguageManager().getMessage("admin.kit-created", "{kit}", kitId));
+        MessageUtils.sendMessage(sender, plugin.getLanguageManager().getMessage("admin.kit-created", "{kit}", kitId));
     }
     
     private void editKit(Player player, String kitId) {
@@ -201,7 +205,7 @@ public class UniqueKitsCommand implements CommandExecutor, TabCompleter {
         }
         
         plugin.getGuiManager().openKitEditor(player, kit);
-        MessageUtils.sendMessages(player, plugin.getLanguageManager().getMessage("admin.editor-opened", "{kit}", kit.getName()));
+        MessageUtils.sendMessage(player, plugin.getLanguageManager().getMessage("admin.editor-opened", "{kit}", kit.getName()));
     }
     
     private void deleteKit(CommandSender sender, String kitId) {
@@ -216,7 +220,7 @@ public class UniqueKitsCommand implements CommandExecutor, TabCompleter {
         }
         
         plugin.getKitManager().deleteKit(kitId);
-        MessageUtils.sendMessages(sender, plugin.getLanguageManager().getMessage("admin.kit-deleted", "{kit}", kitId));
+        MessageUtils.sendMessage(sender, plugin.getLanguageManager().getMessage("admin.kit-deleted", "{kit}", kitId));
     }
     
     private void giveKit(CommandSender sender, String playerName, String kitId) {
@@ -241,7 +245,7 @@ public class UniqueKitsCommand implements CommandExecutor, TabCompleter {
         if (success) {
             MessageUtils.sendMessage(sender, plugin.getLanguageManager().getMessage("kit.given", 
                 "{kit}", kit.getName(), "{player}", target.getName()));
-            MessageUtils.sendMessages(target, plugin.getLanguageManager().getMessage("kit.received-from", 
+            MessageUtils.sendMessage(target, plugin.getLanguageManager().getMessage("kit.received-from", 
                 "{kit}", kit.getName(), "{sender}", sender.getName()));
         } else {
             MessageUtils.sendMessage(sender, plugin.getLanguageManager().getMessage("errors.kit-error"));
@@ -335,9 +339,11 @@ public class UniqueKitsCommand implements CommandExecutor, TabCompleter {
         }
         
         // Show player statistics
-        MessageUtils.sendMessages(sender, plugin.getLanguageManager().getMessage("stats.header"));
+        List<String> statsHeader = plugin.getLanguageManager().getMessageList("stats.header");
+        MessageUtils.sendMessages(sender, statsHeader);
         // Add stats implementation here
-        MessageUtils.sendMessages(sender, plugin.getLanguageManager().getMessage("stats.footer"));
+        List<String> statsFooter = plugin.getLanguageManager().getMessageList("stats.footer");
+        MessageUtils.sendMessages(sender, statsFooter);
     }
     
     private void showVersion(CommandSender sender) {

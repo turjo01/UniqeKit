@@ -5,6 +5,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -75,5 +77,15 @@ public class LanguageManager {
     
     public String getCurrentLanguage() {
         return currentLanguage;
+    }
+    
+    public List<String> getMessageList(String key) {
+        if (languageConfig.isList(key)) {
+            return languageConfig.getStringList(key);
+        } else {
+            // If it's a single string, return it as a list
+            String message = getMessage(key);
+            return Arrays.asList(message);
+        }
     }
 }
