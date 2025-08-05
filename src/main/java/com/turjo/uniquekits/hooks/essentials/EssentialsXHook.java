@@ -72,27 +72,6 @@ public class EssentialsXHook {
             plugin.getLogger().severe("§c[EssentialsXHook] Failed to get kits from EssentialsX: " + e.getMessage());
             return 0;
         }
-        
-        plugin.getLogger().info("§e[EssentialsXHook] Found " + essentialsKits.size() + " EssentialsX kits to import...");
-        
-        for (Map.Entry<String, Object> entry : essentialsKits.entrySet()) {
-            String kitName = entry.getKey();
-            Object essentialsKit = entry.getValue();
-            
-            try {
-                if (importKit(kitName, essentialsKit)) {
-                    imported++;
-                    plugin.getLogger().info("§a[EssentialsXHook] ✓ Imported kit: " + kitName);
-                } else {
-                    plugin.getLogger().warning("§c[EssentialsXHook] ✗ Failed to import kit: " + kitName);
-                }
-            } catch (Exception e) {
-                plugin.getLogger().warning("§c[EssentialsXHook] Error importing kit " + kitName + ": " + e.getMessage());
-            }
-        }
-        
-        plugin.getLogger().info("§a[EssentialsXHook] Import complete! Successfully imported " + imported + " kits.");
-        return imported;
     }
     
     private int performImport(Map<String, Object> essentialsKits) {

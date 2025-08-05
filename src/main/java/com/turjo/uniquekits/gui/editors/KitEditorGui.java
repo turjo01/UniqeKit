@@ -221,7 +221,7 @@ public class KitEditorGui extends BaseGui {
         }
         
         // Add a sample over-enchantment
-        Enchantment enchant = Enchantment.PROTECTION_ENVIRONMENTAL;
+        Enchantment enchant = Enchantment.PROTECTION;
         int level = 10; // Over-enchanted level
         
         handItem.addUnsafeEnchantment(enchant, level);
